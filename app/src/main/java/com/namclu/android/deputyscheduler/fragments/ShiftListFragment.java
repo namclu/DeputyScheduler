@@ -17,7 +17,6 @@ import com.namclu.android.deputyscheduler.MainActivity;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.adapters.ShiftAdapter;
 import com.namclu.android.deputyscheduler.models.Shift;
-import com.namclu.android.deputyscheduler.models.ShiftResponse;
 import com.namclu.android.deputyscheduler.rest.ApiClient;
 import com.namclu.android.deputyscheduler.rest.ApiInterface;
 
@@ -63,30 +62,30 @@ public class ShiftListFragment extends Fragment {
 
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ShiftResponse> call = apiInterface.getShifts(DEPUTY_USER_SHA);
-        call.enqueue(new Callback<ShiftResponse>() {
+        Call<List<Shift>> call = apiInterface.getShifts(DEPUTY_USER_SHA);
+        call.enqueue(new Callback<List<Shift>>() {
             @Override
-            public void onResponse(Call<ShiftResponse> call, Response<ShiftResponse> response) {
+            public void onResponse(Call<List<Shift>> call, Response<List<Shift>> response) {
                 int statusCode = response.code();
-                List<Shift> shifts = response.body().getShifts();
+                List<Shift> shifts = response.body();
                 recyclerView.setAdapter(new ShiftAdapter(shifts));
             }
 
             @Override
-            public void onFailure(Call<ShiftResponse> call, Throwable t) {
+            public void onFailure(Call<List<Shift>> call, Throwable t) {
                 Log.e("ShiftListFragment", t.toString());
             }
         });
 
         // Dummy data
-        List<Shift> dummyData = new ArrayList<>();
+        /*List<Shift> dummyData = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             dummyData.add(new Shift(i, "Sun 23 July", "09:00"));
         }
 
         mShifts.addAll(dummyData);
 
-        recyclerView.setAdapter(mShiftAdapter);
+        recyclerView.setAdapter(mShiftAdapter);*/
     }
 
     @Nullable

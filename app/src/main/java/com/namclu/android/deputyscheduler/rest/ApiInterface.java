@@ -1,6 +1,8 @@
 package com.namclu.android.deputyscheduler.rest;
 
-import com.namclu.android.deputyscheduler.models.ShiftResponse;
+import com.namclu.android.deputyscheduler.models.Shift;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,6 +18,6 @@ import retrofit2.http.Header;
 
 public interface ApiInterface {
 
-    @GET("/shifts")
-    Call<ShiftResponse> getShifts(@Header("Authorization") String deputySha);
+    @GET("/dmc/shifts")
+    Call<List<Shift>> getShifts(@Header("Authorization") String deputySha);
 }
