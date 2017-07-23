@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.namclu.android.deputyscheduler.R;
+import com.namclu.android.deputyscheduler.ShiftListActivity;
 import com.namclu.android.deputyscheduler.adapters.ShiftAdapter;
 import com.namclu.android.deputyscheduler.models.Shift;
 
@@ -25,6 +26,7 @@ import java.util.List;
 public class ShiftListFragment extends Fragment {
     private ArrayList<Shift> mShifts;
     private ShiftAdapter mShiftAdapter;
+    private ShiftListActivity mShiftListActivity;
 
     public static ShiftListFragment newInstance() {
         return new ShiftListFragment();
@@ -71,5 +73,19 @@ public class ShiftListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        mShiftListActivity = (ShiftListActivity) context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShiftListActivity.showFloatingButton(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mShiftListActivity.showFloatingButton(false);
     }
 }
