@@ -39,7 +39,7 @@ public class Shift {
         setStartDate(shiftDate);
         setStartTime(startTime);
     }
-    
+
     public Shift(String startTime, String startLatitude, String startLongitude, String image) {
         this(startTime, startLatitude, startLongitude, "0.00000", "0.00000", image);
     }
@@ -55,7 +55,6 @@ public class Shift {
     }
 
     /* Getter and Setters */
-
     public int getId() {
         return mId;
     }
