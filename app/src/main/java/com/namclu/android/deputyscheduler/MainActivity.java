@@ -9,15 +9,15 @@ import android.widget.LinearLayout;
 import com.namclu.android.deputyscheduler.fragments.NewShiftFragment;
 import com.namclu.android.deputyscheduler.fragments.ShiftListFragment;
 
-public class ShiftListActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = ShiftListActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
     private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shift_list);
+        setContentView(R.layout.activity_main);
 
         LinearLayout fragmentContainer = (LinearLayout) findViewById(R.id.fragment_container);
 
@@ -31,7 +31,11 @@ public class ShiftListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NewShiftFragment newShiftFragment = NewShiftFragment.newInstance();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, newShiftFragment).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, newShiftFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
