@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
     public static final String BASE_URL =
-            "https://apjoqdqpi3.execute-api.us-west-2.amazonaws.com/dmc";
+            "https://apjoqdqpi3.execute-api.us-west-2.amazonaws.com/dmc/";
     private static Retrofit mRetrofit = null;
 
     public static Retrofit getClient() {

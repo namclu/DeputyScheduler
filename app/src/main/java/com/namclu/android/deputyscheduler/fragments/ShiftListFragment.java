@@ -17,7 +17,6 @@ import com.namclu.android.deputyscheduler.MainActivity;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.adapters.ShiftAdapter;
 import com.namclu.android.deputyscheduler.models.Shift;
-import com.namclu.android.deputyscheduler.models.ShiftReponse;
 import com.namclu.android.deputyscheduler.models.ShiftResponse;
 import com.namclu.android.deputyscheduler.rest.ApiClient;
 import com.namclu.android.deputyscheduler.rest.ApiInterface;
@@ -64,7 +63,7 @@ public class ShiftListFragment extends Fragment {
 
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        Call<Shift> call = apiInterface.getShifts(DEPUTY_USER_SHA);
+        Call<ShiftResponse> call = apiInterface.getShifts(DEPUTY_USER_SHA);
         call.enqueue(new Callback<ShiftResponse>() {
             @Override
             public void onResponse(Call<ShiftResponse> call, Response<ShiftResponse> response) {
