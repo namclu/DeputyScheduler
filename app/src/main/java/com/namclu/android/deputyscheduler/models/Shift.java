@@ -1,5 +1,7 @@
 package com.namclu.android.deputyscheduler.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by namlu on 7/23/2017.
  *
@@ -13,21 +15,43 @@ public class Shift {
     * Todo:add variable comments
     *
     * */
+    @SerializedName("id")
     private int mId;
+    @SerializedName("start")
     private String mStartTime;
+    @SerializedName("end")
     private String mEndTime;
     private String mStartDate;
+    @SerializedName("startLatitude")
     private String mStartLatitude;
+    @SerializedName("startLongitude")
     private String mStartLongitude;
+    @SerializedName("endLatitude")
     private String mEndLatitude;
+    @SerializedName("endLongitude")
     private String mEndLongitude;
+    @SerializedName("image")
     private String mImage;
 
-    // New shift constructor
+    // Constructors
     public Shift(int id, String shiftDate, String startTime) {
         setId(id);
         setStartDate(shiftDate);
         setStartTime(startTime);
+    }
+    
+    public Shift(String startTime, String startLatitude, String startLongitude, String image) {
+        this(startTime, startLatitude, startLongitude, "0.00000", "0.00000", image);
+    }
+
+    public Shift(String startTime, String startLatitude, String startLongitude,
+                 String endLatitude, String endLongitude, String image) {
+        setStartTime(startTime);
+        setStartLatitude(startLatitude);
+        setStartLongitude(startLongitude);
+        setEndLatitude(endLatitude);
+        setEndLongitude(endLongitude);
+        setImage(image);
     }
 
     /* Getter and Setters */
