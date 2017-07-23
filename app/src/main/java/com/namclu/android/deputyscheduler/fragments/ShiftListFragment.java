@@ -33,12 +33,13 @@ import retrofit2.Response;
 
 public class ShiftListFragment extends Fragment {
 
-    private final static String USER_SHA = BuildConfig.USER_SHA;
-    private final static String DEPUTY_USER_SHA = "Deputy " + USER_SHA;
+    private static final String TAG = ShiftListFragment.class.getSimpleName();
+
+    private static final String USER_SHA = BuildConfig.USER_SHA;
+    private static final String DEPUTY_USER_SHA = "Deputy " + USER_SHA;
 
     // Global variables
     private ArrayList<Shift> mShifts;
-    private ShiftAdapter mShiftAdapter;
     private MainActivity mMainActivity;
 
     public static ShiftListFragment newInstance() {
@@ -51,7 +52,7 @@ public class ShiftListFragment extends Fragment {
 
         // Initialize variables
         mShifts = new ArrayList<>();
-        mShiftAdapter = new ShiftAdapter(mShifts);
+        ShiftAdapter shiftAdapter = new ShiftAdapter(mShifts);
 
         // Find references
         final RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
@@ -67,25 +68,18 @@ public class ShiftListFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Shift>> call, Response<List<Shift>> response) {
                 int statusCode = response.code();
-                List<Shift> shifts = response.body();
-                recyclerView.setAdapter(new ShiftAdapter(shifts));
+
+                if (statusCode == 200) {
+                    List<Shift> shifts = response.body();
+                    recyclerView.setAdapter(new ShiftAdapter(shifts));
+                }
             }
 
             @Override
             public void onFailure(Call<List<Shift>> call, Throwable t) {
-                Log.e("ShiftListFragment", t.toString());
+                Log.e(TAG, t.toString());
             }
         });
-
-        // Dummy data
-        /*List<Shift> dummyData = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            dummyData.add(new Shift(i, "Sun 23 July", "09:00"));
-        }
-
-        mShifts.addAll(dummyData);
-
-        recyclerView.setAdapter(mShiftAdapter);*/
     }
 
     @Nullable

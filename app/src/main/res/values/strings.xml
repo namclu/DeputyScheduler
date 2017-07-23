@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">DeputyScheduler</string>
+    <!-- Activity and fragment titles -->
+    <string name="app_name">Deputy Scheduler</string>
+    <string name="fragment_new_shift_title">New Shift</string>
+
+    <!-- ShiftList strings -->
+    <string name="shift_in_progress">in progress...</string>
 </resources>

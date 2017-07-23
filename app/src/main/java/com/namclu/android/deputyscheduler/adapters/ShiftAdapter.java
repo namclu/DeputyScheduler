@@ -42,6 +42,11 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
         holder.mTextCompany.setText(String.format("%d", currentShift.getId()));
         holder.mTextDate.setText(String.format("%s", currentShift.getStartDate()));
         holder.mTextStartTime.setText(String.format("%s", currentShift.getStartTime()));
+        if (!currentShift.getEndTime().isEmpty()) {
+            holder.mTextEndTime.setText(String.format("%s", currentShift.getEndTime()));
+        } else {
+            holder.mTextEndTime.setText(R.string.shift_in_progress);
+        }
     }
 
     @Override
@@ -53,12 +58,14 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
         public final TextView mTextCompany;
         public final TextView mTextDate;
         public final TextView mTextStartTime;
+        public final TextView mTextEndTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mTextCompany = (TextView) itemView.findViewById(R.id.text_company_name);
             mTextDate = (TextView) itemView.findViewById(R.id.text_day);
             mTextStartTime = (TextView) itemView.findViewById(R.id.text_start_time);
+            mTextEndTime = (TextView) itemView.findViewById(R.id.text_end_time);
         }
     }
 }
