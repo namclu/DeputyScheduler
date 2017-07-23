@@ -1,24 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/text_company_name"
+    <LinearLayout
+        android:id="@+id/shift_list_company_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent">
 
-    <TextView
-        android:id="@+id/text_date"
+        <TextView
+            android:id="@+id/text_company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Company Name"/>
+
+        <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@mipmap/ic_launcher"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shift_list_date_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="16dp"
+        app:layout_constraintLeft_toRightOf="@+id/shift_list_company_container"
+        app:layout_constraintRight_toLeftOf="@+id/shift_list_time_container"
+        android:layout_marginLeft="16dp">
 
-    <TextView
-        android:id="@+id/text_start_time"
+        <TextView
+            android:id="@+id/text_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="SUN"
+            />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="23 July"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shift_list_time_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"/>
-</LinearLayout>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/text_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="09:00 am"/>
+
+        <TextView
+            android:id="@+id/text_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="05:00 pm"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
