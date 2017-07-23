@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/recycler_view"
+<LinearLayout
+    android:id="@+id/fragment_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/default_margin"
-    android:layout_marginRight="@dimen/default_margin"
-    tools:context="com.namclu.android.deputyscheduler.ShiftListActivity"
-    tools:listitem="@layout/shift_list_content"/>
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+</LinearLayout>
