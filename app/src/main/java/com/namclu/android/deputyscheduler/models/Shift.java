@@ -13,11 +13,10 @@ public class Shift {
     * Todo:add variable comments
     *
     * */
-    private String mCompanyName;
-    private String mLogoUrl;
-    private String mShiftDate;
+    private int mId;
     private String mStartTime;
     private String mEndTime;
+    private String mStartDate;
     private String mStartLatitude;
     private String mStartLongitude;
     private String mEndLatitude;
@@ -25,35 +24,20 @@ public class Shift {
     private String mImage;
 
     // New shift constructor
-    public Shift(String companyName, String shiftDate, String startTime) {
-        setCompanyName(companyName);
-        setShiftDate(shiftDate);
+    public Shift(int id, String shiftDate, String startTime) {
+        setId(id);
+        setStartDate(shiftDate);
         setStartTime(startTime);
     }
 
     /* Getter and Setters */
-    public String getCompanyName() {
-        return mCompanyName;
+
+    public int getId() {
+        return mId;
     }
 
-    public void setCompanyName(String companyName) {
-        mCompanyName = companyName;
-    }
-
-    public String getLogoUrl() {
-        return mLogoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        mLogoUrl = logoUrl;
-    }
-
-    public String getShiftDate() {
-        return mShiftDate;
-    }
-
-    public void setShiftDate(String shiftDate) {
-        mShiftDate = shiftDate;
+    public void setId(int id) {
+        mId = id;
     }
 
     public String getStartTime() {
@@ -70,6 +54,14 @@ public class Shift {
 
     public void setEndTime(String endTime) {
         mEndTime = endTime;
+    }
+
+    public String getStartDate() {
+        return mStartDate;
+    }
+
+    public void setStartDate(String startDate) {
+        mStartDate = startDate;
     }
 
     public String getStartLatitude() {

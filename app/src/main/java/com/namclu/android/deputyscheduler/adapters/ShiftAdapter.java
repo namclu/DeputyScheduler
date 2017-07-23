@@ -39,8 +39,8 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
     public void onBindViewHolder(ShiftAdapter.ViewHolder holder, int position) {
         final Shift currentShift = mShifts.get(position);
 
-        holder.mTextCompany.setText(String.format("%s", currentShift.getCompanyName()));
-        holder.mTextDate.setText(String.format("%s", currentShift.getShiftDate()));
+        holder.mTextCompany.setText(String.format("%d", currentShift.getId()));
+        holder.mTextDate.setText(String.format("%s", currentShift.getStartDate()));
         holder.mTextStartTime.setText(String.format("%s", currentShift.getStartTime()));
     }
 

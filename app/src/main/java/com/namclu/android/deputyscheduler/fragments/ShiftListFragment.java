@@ -24,6 +24,8 @@ import java.util.List;
  */
 
 public class ShiftListFragment extends Fragment {
+
+    // Global variables
     private ArrayList<Shift> mShifts;
     private ShiftAdapter mShiftAdapter;
     private MainActivity mMainActivity;
@@ -49,16 +51,10 @@ public class ShiftListFragment extends Fragment {
 
         // Dummy data
         List<Shift> dummyData = new ArrayList<>();
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
-        dummyData.add(new Shift("Deputy", "Sun 23 July", "09:00"));
+        for (int i = 0; i < 20; i++) {
+            dummyData.add(new Shift(i, "Sun 23 July", "09:00"));
+        }
+
         mShifts.addAll(dummyData);
 
         recyclerView.setAdapter(mShiftAdapter);
@@ -73,7 +69,6 @@ public class ShiftListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         mMainActivity = (MainActivity) context;
     }
 
