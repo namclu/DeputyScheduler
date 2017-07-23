@@ -1,5 +1,6 @@
 package com.namclu.android.deputyscheduler.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -59,12 +60,16 @@ public class ShiftListFragment extends Fragment {
         mShifts.addAll(dummyData);
 
         recyclerView.setAdapter(mShiftAdapter);
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_shift_list, container, false);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 }
