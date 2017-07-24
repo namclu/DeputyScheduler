@@ -9,6 +9,7 @@
     <!-- NewShift strings -->
     <string name="shift_date">Date</string>
     <string name="time_start">Time Start</string>
+    <string name="enter_date">Enter date</string>
 
     <!-- DatePicker strings -->
     <string name="date_picker_title">Date</string>

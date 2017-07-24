@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.namclu.android.deputyscheduler.R;
 
@@ -20,7 +20,7 @@ public class NewShiftFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
 
     // Global variables
-    private EditText mEditDate;
+    private TextView mEditDate;
 
     public static NewShiftFragment newInstance() {
 
@@ -32,7 +32,7 @@ public class NewShiftFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_shift, container, false);
 
-        mEditDate = (EditText) view.findViewById(R.id.edit_shift_date);
+        mEditDate = (TextView) view.findViewById(R.id.edit_shift_date);
         mEditDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
