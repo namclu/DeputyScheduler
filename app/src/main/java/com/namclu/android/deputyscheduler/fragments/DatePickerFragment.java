@@ -43,6 +43,7 @@ public class DatePickerFragment extends DialogFragment {
                 .setTitle(R.string.date_picker_title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create();
     }
 }

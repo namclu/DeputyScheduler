@@ -32,6 +32,7 @@ public class TimePickerFragment extends DialogFragment {
                 .setTitle(R.string.time_picker_title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create();
         /*return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));*/

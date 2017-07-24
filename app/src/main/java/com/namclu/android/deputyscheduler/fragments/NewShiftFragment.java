@@ -22,7 +22,8 @@ public class NewShiftFragment extends Fragment {
 
     // Global variables
     private TextView mTextDatePicker;
-    private TextView mTextTimePicker;
+    private TextView mTextStartTimePicker;
+    private TextView mTextEndTimePicker;
 
     public static NewShiftFragment newInstance() {
 
@@ -36,8 +37,8 @@ public class NewShiftFragment extends Fragment {
 
         // Initialize views
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
-        mTextTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
-
+        mTextStartTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
+        mTextEndTimePicker = (TextView) view.findViewById(R.id.text_end_time_picker);
 
         mTextDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +51,16 @@ public class NewShiftFragment extends Fragment {
             }
         });
 
-        mTextTimePicker.setOnClickListener(new View.OnClickListener() {
+        mTextStartTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                TimePickerFragment timePickerFragment = new TimePickerFragment();
+                timePickerFragment.show(fragmentManager, DIALOG_TIME);
+            }
+        });
+
+        mTextEndTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
