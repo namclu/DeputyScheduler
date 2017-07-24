@@ -1,13 +1,10 @@
 package com.namclu.android.deputyscheduler.fragments;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.View;
-
-import com.namclu.android.deputyscheduler.R;
 
 import java.util.Calendar;
 
@@ -17,24 +14,31 @@ import java.util.Calendar;
 
 public class TimePickerFragment extends DialogFragment {
 
+    public TimePickerFragment() {
+    }
+
+    public static TimePickerFragment newInstance(@NonNull Calendar calendar) {
+        TimePickerFragment fragment = new TimePickerFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("calendar", calendar);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
-        View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.time_picker_dialog, null);
+        Calendar calendar = (Calendar) getArguments().getSerializable("calendar");
+        if (calendar == null) {
+            calendar = Calendar.getInstance();
+        }
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
 
         // Create a new instance of TimePickerDialog and return it
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.time_picker_title)
-                .setView(view)
-                .setPositiveButton(android.R.string.ok, null)
-                .setNegativeButton(android.R.string.cancel, null)
-                .create();
-        /*return new TimePickerDialog(getActivity(), this, hour, minute,
-                DateFormat.is24HourFormat(getActivity()));*/
+        TimePickerDialog.OnTimeSetListener parentFragment =
+                (TimePickerDialog.OnTimeSetListener) getParentFragment();
+        return new TimePickerDialog(getActivity(), parentFragment, hour, minute, true);
     }
 }

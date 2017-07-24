@@ -1,16 +1,12 @@
 package com.namclu.android.deputyscheduler.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.DatePicker;
 
-import com.namclu.android.deputyscheduler.R;
-
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by namlu on 7/24/2017.
@@ -20,30 +16,32 @@ import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment {
 
-    private static final String ARG_DATE = "date";
+    public DatePickerFragment() {
+    }
 
-    private DatePicker mDatePicker;
-
-    public static DatePickerFragment newInstance(Date date) {
-        
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_DATE, date);
-        
+    public static DatePickerFragment newInstance(@NonNull Calendar calendar) {
         DatePickerFragment fragment = new DatePickerFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("calendar", calendar);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.date_dialog, null);
+        // Use the current time as the default values for the picker
+        Calendar calendar = (Calendar) getArguments().getSerializable("calendar");
+        if (calendar == null) {
+            calendar = Calendar.getInstance();
+        }
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.date_picker_title)
-                .setView(view)
-                .setPositiveButton(android.R.string.ok, null)
-                .setNegativeButton(android.R.string.cancel, null)
-                .create();
+        // Create a new instance of TimePickerDialog and return it
+        DatePickerDialog.OnDateSetListener parentFragment =
+                (DatePickerDialog.OnDateSetListener) getParentFragment();
+        return new DatePickerDialog(getActivity(), parentFragment, year, month, day);
     }
 }
