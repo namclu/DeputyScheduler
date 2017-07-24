@@ -6,43 +6,34 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.DatePicker;
 
 import com.namclu.android.deputyscheduler.R;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by namlu on 7/24/2017.
- *
- * Fragment used to show Date Dialog
  */
 
-public class DatePickerFragment extends DialogFragment {
-
-    private static final String ARG_DATE = "date";
-
-    private DatePicker mDatePicker;
-
-    public static DatePickerFragment newInstance(Date date) {
-        
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_DATE, date);
-        
-        DatePickerFragment fragment = new DatePickerFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class TimePickerFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.date_dialog, null);
+        // Use the current time as the default values for the picker
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
+        View view = LayoutInflater.from(getActivity())
+                .inflate(R.layout.time_picker_dialog, null);
+
+        // Create a new instance of TimePickerDialog and return it
         return new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.date_picker_title)
+                .setTitle(R.string.time_picker_title)
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, null)
                 .create();
+        /*return new TimePickerDialog(getActivity(), this, hour, minute,
+                DateFormat.is24HourFormat(getActivity()));*/
     }
 }

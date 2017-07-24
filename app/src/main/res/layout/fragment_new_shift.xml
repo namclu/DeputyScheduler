@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/text_shift_date"
+        android:id="@+id/text_date_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -18,31 +18,45 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/edit_shift_date"
-        android:layout_width="131dp"
-        android:layout_height="40dp"
+        android:id="@+id/text_shift_date_picker"
+        android:layout_width="215dp"
+        android:layout_height="49dp"
         android:layout_marginLeft="109dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/enter_date"
-        android:inputType="date"
+        android:hint="@string/hint_enter_date"
         android:textSize="16sp"
         app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintLeft_toRightOf="@+id/text_shift_date"
+        app:layout_constraintLeft_toRightOf="@+id/text_date_heading"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="152dp"/>
 
     <TextView
-        android:id="@+id/text_start_time"
+        android:id="@+id/text_start_time_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="38dp"
         android:text="@string/time_start"
         android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_shift_date"/>
+        app:layout_constraintRight_toLeftOf="@+id/text_start_time_picker"
+        app:layout_constraintTop_toBottomOf="@+id/text_date_heading"/>
+
+    <TextView
+        android:id="@+id/text_start_time_picker"
+        android:layout_width="216dp"
+        android:layout_height="47dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/hint_enter_start_time"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_shift_date_picker"
+        tools:layout_editor_absoluteX="160dp"/>
 
 
 </android.support.constraint.ConstraintLayout>

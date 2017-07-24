@@ -64,7 +64,7 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
             super(itemView);
             mTextCompany = (TextView) itemView.findViewById(R.id.text_company_name);
             mTextDate = (TextView) itemView.findViewById(R.id.text_day);
-            mTextStartTime = (TextView) itemView.findViewById(R.id.text_start_time);
+            mTextStartTime = (TextView) itemView.findViewById(R.id.text_start_time_heading);
             mTextEndTime = (TextView) itemView.findViewById(R.id.text_end_time);
         }
     }

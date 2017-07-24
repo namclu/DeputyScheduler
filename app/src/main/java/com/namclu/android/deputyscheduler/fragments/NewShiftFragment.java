@@ -18,9 +18,11 @@ import com.namclu.android.deputyscheduler.R;
 public class NewShiftFragment extends Fragment {
 
     private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_TIME = "DialogTime";
 
     // Global variables
-    private TextView mEditDate;
+    private TextView mTextDatePicker;
+    private TextView mTextTimePicker;
 
     public static NewShiftFragment newInstance() {
 
@@ -32,13 +34,28 @@ public class NewShiftFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_shift, container, false);
 
-        mEditDate = (TextView) view.findViewById(R.id.edit_shift_date);
-        mEditDate.setOnClickListener(new View.OnClickListener() {
+        // Initialize views
+        mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
+        mTextTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
+
+
+        mTextDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
                 DatePickerFragment datePickerFragment = new DatePickerFragment();
+                /*DatePickerFragment datePickerFragment = DatePickerFragment
+                        .newInstance();*/
                 datePickerFragment.show(fragmentManager, DIALOG_DATE);
+            }
+        });
+
+        mTextTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                TimePickerFragment timePickerFragment = new TimePickerFragment();
+                timePickerFragment.show(fragmentManager, DIALOG_TIME);
             }
         });
 
