@@ -5,4 +5,11 @@
 
     <!-- ShiftList strings -->
     <string name="shift_in_progress">in progress...</string>
+
+    <!-- NewShift strings -->
+    <string name="shift_date">Date</string>
+    <string name="time_start">Time Start</string>
+
+    <!-- DatePicker strings -->
+    <string name="date_picker_title">Date</string>
 </resources>
