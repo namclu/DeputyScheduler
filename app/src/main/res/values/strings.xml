@@ -3,13 +3,15 @@
     <string name="app_name">Deputy Scheduler</string>
     <string name="fragment_new_shift_title">New Shift</string>
 
-    <!-- ShiftList strings -->
+    <!-- ShiftList frag strings -->
     <string name="shift_in_progress">in progress...</string>
 
-    <!-- NewShift strings -->
+    <!-- NewShift frag strings -->
     <string name="shift_date">Date</string>
     <string name="time_start">Time Start</string>
     <string name="time_end">Time End</string>
+    <string name="button_text_cancel">Cancel</string>
+    <string name="button_text_save">Save</string>
 
     <string name="hint_enter_date">Enter date</string>
 
@@ -20,6 +22,7 @@
     <string name="time_picker_title">Time</string>
     <string name="hint_enter_start_time">Enter start time</string>
     <string name="hint_enter_end_time">Enter end time</string>
+
 
 
 </resources>

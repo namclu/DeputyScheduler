@@ -39,7 +39,7 @@ public class DatePickerFragment extends DialogFragment {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new instance of TimePickerDialog and return it
+        // Create a new instance of DatePickerDialog and return it
         DatePickerDialog.OnDateSetListener parentFragment =
                 (DatePickerDialog.OnDateSetListener) getParentFragment();
         return new DatePickerDialog(getActivity(), parentFragment, year, month, day);
