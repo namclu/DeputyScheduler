@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.R;
@@ -106,10 +107,8 @@ public class NewShiftFragment extends Fragment implements
                         int statusCode = response.code();
 
                         if (statusCode == 200) {
-                            Log.v(TAG, "Post time = " + postBody.getTime());
-                            Log.v(TAG, "Lat = " + postBody.getLatitude());
-                            Log.v(TAG, "Long = " + postBody.getLongitude());
-                            Log.v(TAG, "Call = " + response.body());
+                            Toast.makeText(getActivity(), "Shift started", Toast.LENGTH_SHORT).show();
+                            closeFragment();
                         }
                     }
 
@@ -124,11 +123,7 @@ public class NewShiftFragment extends Fragment implements
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .remove(NewShiftFragment.this)
-                        .commit();
+                closeFragment();
             }
         });
 
@@ -149,5 +144,11 @@ public class NewShiftFragment extends Fragment implements
 
         mTextDatePicker.setText(
                 new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(mCalendar.getTime()));
+    }
+
+    private void closeFragment() {
+        getActivity()
+                .getSupportFragmentManager()
+                .popBackStack();
     }
 }

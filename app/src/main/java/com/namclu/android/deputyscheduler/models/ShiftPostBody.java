@@ -1,5 +1,7 @@
 package com.namclu.android.deputyscheduler.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by namlu on 7/24/2017.
  *
@@ -7,8 +9,11 @@ package com.namclu.android.deputyscheduler.models;
  */
 
 public class ShiftPostBody {
+    @SerializedName("time")
     private String mTime;
+    @SerializedName("latitude")
     private String mLatitude;
+    @SerializedName("longitude")
     private String mLongitude;
 
     public String getTime() {
