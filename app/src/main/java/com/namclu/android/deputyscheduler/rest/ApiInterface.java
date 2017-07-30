@@ -1,6 +1,5 @@
 package com.namclu.android.deputyscheduler.rest;
 
-import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.models.Shift;
 import com.namclu.android.deputyscheduler.models.ShiftPostBody;
 
@@ -10,7 +9,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -27,6 +25,6 @@ public interface ApiInterface {
     Call<List<Shift>> getShifts(@Header("Authorization") String deputySha);
 
     @POST("/dmc/shift/start")
-    @Headers({"Authorization: " + "Deputy " + BuildConfig.USER_SHA})
-    Call<String> postShift(@Body ShiftPostBody postBody);
+    Call<String> postShift(@Header("Authorization") String deputySha,
+                           @Body ShiftPostBody postBody);
 }

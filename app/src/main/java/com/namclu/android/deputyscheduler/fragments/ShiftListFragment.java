@@ -34,9 +34,7 @@ import retrofit2.Response;
 public class ShiftListFragment extends Fragment {
 
     private static final String TAG = ShiftListFragment.class.getSimpleName();
-
-    private static final String USER_SHA = BuildConfig.USER_SHA;
-    private static final String DEPUTY_USER_SHA = "Deputy " + USER_SHA;
+    private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
 
     // Global variables
     private ArrayList<Shift> mShifts;

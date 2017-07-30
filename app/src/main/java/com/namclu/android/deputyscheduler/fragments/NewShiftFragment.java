@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.models.ShiftPostBody;
 import com.namclu.android.deputyscheduler.rest.ApiClient;
@@ -37,15 +38,16 @@ public class NewShiftFragment extends Fragment implements
         DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = NewShiftFragment.class.getSimpleName();
+    private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
 
     // Global variables
     private TextView mTextDatePicker;
     private TextView mTextStartTimePicker;
-    private TextView mTextEndTimePicker;
     private Calendar mCalendar;
     private Button mSaveButton;
+    private Button mCancelButton;
 
     public static NewShiftFragment newInstance() {
 
@@ -60,8 +62,8 @@ public class NewShiftFragment extends Fragment implements
         // Initialize views
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
         mTextStartTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
-        mTextEndTimePicker = (TextView) view.findViewById(R.id.text_end_time_picker);
         mSaveButton = (Button) view.findViewById(R.id.button_save);
+        mCancelButton = (Button) view.findViewById(R.id.button_cancel);
 
         mCalendar = Calendar.getInstance();
 
@@ -70,7 +72,7 @@ public class NewShiftFragment extends Fragment implements
             public void onClick(View view) {
                 FragmentManager fragmentManager = getChildFragmentManager();
                 DatePickerFragment datePickerFragment =
-                        DatePickerFragment.newInstance(Calendar.getInstance());
+                        DatePickerFragment.newInstance(mCalendar);
                 datePickerFragment.show(fragmentManager, DIALOG_DATE);
             }
         });
@@ -80,16 +82,7 @@ public class NewShiftFragment extends Fragment implements
             public void onClick(View view) {
                 FragmentManager fragmentManager = getChildFragmentManager();
                 TimePickerFragment timePickerFragment =
-                        TimePickerFragment.newInstance(Calendar.getInstance());
-                timePickerFragment.show(fragmentManager, DIALOG_TIME);
-            }
-        });
-
-        mTextEndTimePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                TimePickerFragment timePickerFragment = new TimePickerFragment();
+                        TimePickerFragment.newInstance(mCalendar);
                 timePickerFragment.show(fragmentManager, DIALOG_TIME);
             }
         });
@@ -106,7 +99,7 @@ public class NewShiftFragment extends Fragment implements
 
                 ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-                Call<String> call = apiInterface.postShift(postBody);
+                Call<String> call = apiInterface.postShift(DEPUTY_USER_SHA, postBody);
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -114,6 +107,8 @@ public class NewShiftFragment extends Fragment implements
 
                         if (statusCode == 200) {
                             Log.v(TAG, "Post time = " + postBody.getTime());
+                            Log.v(TAG, "Lat = " + postBody.getLatitude());
+                            Log.v(TAG, "Long = " + postBody.getLongitude());
                             Log.v(TAG, "Call = " + response.body());
                         }
                     }
@@ -123,6 +118,17 @@ public class NewShiftFragment extends Fragment implements
                         Log.e(TAG, t.toString());
                     }
                 });
+            }
+        });
+
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .remove(NewShiftFragment.this)
+                        .commit();
             }
         });
 

@@ -12,7 +12,9 @@ import com.namclu.android.deputyscheduler.fragments.ShiftListFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private FloatingActionButton fab;
+    private static final String NEW_SHIFT = "New Shift";
+
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,22 +28,22 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, shiftListFragment).commit();
         }
 
-        fab = (FloatingActionButton) findViewById(R.id.float_action_button);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = (FloatingActionButton) findViewById(R.id.float_action_button);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewShiftFragment newShiftFragment = NewShiftFragment.newInstance();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, newShiftFragment)
-                        .addToBackStack(null)
+                        .replace(R.id.fragment_container, newShiftFragment, NEW_SHIFT)
+                        .addToBackStack(NEW_SHIFT)
                         .commit();
             }
         });
     }
 
     public void showFloatingButton(boolean showButton) {
-        fab.setVisibility(showButton ? View.VISIBLE : View.GONE);
+        mFab.setVisibility(showButton ? View.VISIBLE : View.GONE);
     }
 
 
