@@ -60,7 +60,7 @@ public class NewShiftFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_shift, container, false);
 
-        // Initialize views
+        // Find view ids
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
         mTextStartTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
         mSaveButton = (Button) view.findViewById(R.id.button_save);
