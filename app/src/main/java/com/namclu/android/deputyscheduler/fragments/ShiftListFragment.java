@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,9 +32,10 @@ import retrofit2.Response;
  * Created by namlu on 7/23/2017.
  */
 
-public class ShiftListFragment extends Fragment {
+public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemClickListener{
 
     private static final String TAG = ShiftListFragment.class.getSimpleName();
+    private static final String SHIFT_DETAILS = "Shift Details";
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
 
     // Global variables
@@ -50,7 +52,7 @@ public class ShiftListFragment extends Fragment {
 
         // Initialize variables
         mShifts = new ArrayList<>();
-        ShiftAdapter shiftAdapter = new ShiftAdapter(mShifts);
+        final ShiftAdapter shiftAdapter = new ShiftAdapter(mShifts, this);
 
         // Find references
         final RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
@@ -69,7 +71,7 @@ public class ShiftListFragment extends Fragment {
 
                 if (statusCode == 200) {
                     List<Shift> shifts = response.body();
-                    recyclerView.setAdapter(new ShiftAdapter(shifts));
+                    recyclerView.setAdapter(new ShiftAdapter(shifts, ShiftListFragment.this));
                 }
             }
 
@@ -102,5 +104,16 @@ public class ShiftListFragment extends Fragment {
     public void onPause() {
         super.onPause();
         mMainActivity.showFloatingButton(false);
+    }
+
+    @Override
+    public void OnItemClicked(Shift shift) {
+        ShiftDetailsFragment shiftDetailsFragment = ShiftDetailsFragment.newInstance();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, shiftDetailsFragment, SHIFT_DETAILS)
+                .addToBackStack(SHIFT_DETAILS)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
     }
 }

@@ -2,6 +2,7 @@ package com.namclu.android.deputyscheduler;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
                         .beginTransaction()
                         .replace(R.id.fragment_container, newShiftFragment, NEW_SHIFT)
                         .addToBackStack(NEW_SHIFT)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
             }
         });

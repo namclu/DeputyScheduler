@@ -21,11 +21,18 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
 
     private static final String TAG = ShiftAdapter.class.getSimpleName();
 
+    // Global variables
     private final List<Shift> mShifts;
+    private final OnItemClickListener mItemClickListener;
 
     // ShiftAdapter constructor
-    public ShiftAdapter(List<Shift> shifts) {
+    /*public ShiftAdapter(List<Shift> shifts) {
         mShifts = shifts;
+    }*/
+
+    public ShiftAdapter(List<Shift> shifts, OnItemClickListener onItemClickListener) {
+        mShifts = shifts;
+        mItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -47,6 +54,15 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
         } else {
             holder.mTextEndTime.setText(R.string.shift_in_progress);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.OnItemClicked(currentShift);
+                }
+            }
+        });
     }
 
     @Override
@@ -67,5 +83,9 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
             mTextStartTime = (TextView) itemView.findViewById(R.id.text_start_time_heading);
             mTextEndTime = (TextView) itemView.findViewById(R.id.text_end_time);
         }
+    }
+
+    public interface OnItemClickListener {
+        void OnItemClicked(Shift shift);
     }
 }
