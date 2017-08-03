@@ -25,6 +25,10 @@ public interface ApiInterface {
     Call<List<Shift>> getShifts(@Header("Authorization") String deputySha);
 
     @POST("/dmc/shift/start")
-    Call<String> postShift(@Header("Authorization") String deputySha,
+    Call<String> startShift(@Header("Authorization") String deputySha,
+                            @Body ShiftPostBody postBody);
+
+    @POST("/dmc/shift/end")
+    Call<String> endShift(@Header("Authorization") String deputySha,
                            @Body ShiftPostBody postBody);
 }

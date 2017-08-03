@@ -24,4 +24,8 @@
     <string name="hint_enter_end_time">Enter end time</string>
     <string name="hint_no_end_time">No end time</string>
 
+    <!-- Toast messages -->
+    <string name="toast_shift_started">Shift started</string>
+    <string name="toast_shift_ended">Shift ended</string>
+
 </resources>

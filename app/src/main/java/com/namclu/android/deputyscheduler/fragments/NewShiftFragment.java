@@ -100,14 +100,18 @@ public class NewShiftFragment extends Fragment implements
 
                 ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-                Call<String> call = apiInterface.postShift(DEPUTY_USER_SHA, postBody);
+                Call<String> call = apiInterface.startShift(DEPUTY_USER_SHA, postBody);
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         int statusCode = response.code();
 
                         if (statusCode == 200) {
-                            Toast.makeText(getActivity(), "Shift started", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(
+                                    getActivity(),
+                                    getResources().getString(R.string.toast_shift_started),
+                                    Toast.LENGTH_SHORT)
+                                    .show();
                             closeFragment();
                         }
                     }
