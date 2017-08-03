@@ -105,6 +105,7 @@ public class NewShiftFragment extends Fragment implements
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         int statusCode = response.code();
+                        Log.v(TAG, response.toString());
 
                         if (statusCode == 200) {
                             Toast.makeText(

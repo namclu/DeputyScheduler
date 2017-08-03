@@ -57,8 +57,8 @@ public class ShiftDetailsFragment extends Fragment implements
     public static ShiftDetailsFragment newInstance(Shift shift) {
         ShiftDetailsFragment fragment = new ShiftDetailsFragment();
         Bundle args = new Bundle();
-        args.putString(START_TIME, shift.getStartTime());
-        args.putString(END_TIME, shift.getEndTime());
+        args.putSerializable(START_TIME, shift.getStartTime());
+        args.putSerializable(END_TIME, shift.getEndTime());
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,6 +81,8 @@ public class ShiftDetailsFragment extends Fragment implements
         mSaveButton = (Button) view.findViewById(R.id.button_save);
         mCancelButton = (Button) view.findViewById(R.id.button_cancel);
 
+        // Todo: Format display date/time to match that of when date/time are entered
+        // e.g. Thu, 3 Aug 2017 and 13:31
         mTextDatePicker.setText(String.format("%s", startDateString));
         mTextStartTimePicker.setText(String.format("%s", startTimeString));
         //mTextDatePicker.setText(new SimpleDateFormat("EEE, MMM d yyyy", Locale.ENGLISH).format(completeStartTimeString));
@@ -119,6 +121,7 @@ public class ShiftDetailsFragment extends Fragment implements
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         int statusCode = response.code();
+                        Log.v(TAG, response.toString());
 
                         if (statusCode == 200) {
                             Toast.makeText(
