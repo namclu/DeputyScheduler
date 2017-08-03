@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.namclu.android.deputyscheduler.R;
+import com.namclu.android.deputyscheduler.models.Shift;
 
 import java.util.Calendar;
 
@@ -28,18 +29,23 @@ public class ShiftDetailsFragment extends Fragment implements
 
     private static final String TAG = ShiftDetailsFragment.class.getSimpleName();
     private static final String DIALOG_TIME = "DialogTime";
+    private static final String START_TIME = "StartTime";
 
 
     // Global variables
     private TextView mTextDatePicker;
+    private TextView mTextStartTimePicker;
     private TextView mTextEndTimePicker;
     private Calendar mCalendar;
     private Button mSaveButton;
     private Button mCancelButton;
 
-    public static ShiftDetailsFragment newInstance() {
-
-        return new ShiftDetailsFragment();
+    public static ShiftDetailsFragment newInstance(Shift shift) {
+        ShiftDetailsFragment fragment = new ShiftDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString(START_TIME, shift.getStartTime());
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Nullable
@@ -47,11 +53,21 @@ public class ShiftDetailsFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shift_details, container, false);
 
+        Bundle args = getArguments();
+        String completeTimeString = args.getString(START_TIME);
+        String startTimeString = completeTimeString.split("T")[1];
+        String startDateString = completeTimeString.split("T")[0];
+
         // Find view ids
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
+        mTextStartTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
         mTextEndTimePicker = (TextView) view.findViewById(R.id.text_end_time_picker);
         mSaveButton = (Button) view.findViewById(R.id.button_save);
         mCancelButton = (Button) view.findViewById(R.id.button_cancel);
+
+        mTextDatePicker.setText(String.format("%s", startDateString));
+        mTextStartTimePicker.setText(String.format("%s", startTimeString));
+        //mTextDatePicker.setText(new SimpleDateFormat("EEE, MMM d yyyy", Locale.ENGLISH).format(completeTimeString));
 
         mCalendar = Calendar.getInstance();
 
@@ -88,5 +104,4 @@ public class ShiftDetailsFragment extends Fragment implements
                 .getSupportFragmentManager()
                 .popBackStack();
     }
-
 }

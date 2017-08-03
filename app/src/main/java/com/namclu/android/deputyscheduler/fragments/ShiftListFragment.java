@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemClickListener{
 
     private static final String TAG = ShiftListFragment.class.getSimpleName();
-    private static final String SHIFT_DETAILS = "Shift Details";
+    private static final String SHIFT_DETAILS = "ShiftDetails";
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
 
     // Global variables
@@ -108,7 +108,7 @@ public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemCl
 
     @Override
     public void OnItemClicked(Shift shift) {
-        ShiftDetailsFragment shiftDetailsFragment = ShiftDetailsFragment.newInstance();
+        ShiftDetailsFragment shiftDetailsFragment = ShiftDetailsFragment.newInstance(shift);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, shiftDetailsFragment, SHIFT_DETAILS)
