@@ -10,6 +10,9 @@
     <string name="shift_date">Date</string>
     <string name="time_start">Time Start</string>
     <string name="time_end">Time End</string>
+    <string name="latitude_start">Latitude Start</string>
+    <string name="longitude_start">Longitude Start</string>
+    <string name="location_data">Location Data</string>
     <string name="button_text_cancel">Cancel</string>
     <string name="button_text_save">Save</string>
 
