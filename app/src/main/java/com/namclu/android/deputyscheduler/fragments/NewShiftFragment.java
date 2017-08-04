@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.R;
@@ -37,7 +39,7 @@ import retrofit2.Response;
 
 public class NewShiftFragment extends Fragment implements
         TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener {
+        DatePickerDialog.OnDateSetListener, OnMapReadyCallback {
 
     private static final String TAG = NewShiftFragment.class.getSimpleName();
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
@@ -162,14 +164,21 @@ public class NewShiftFragment extends Fragment implements
     private void initilizeMap() {
         if (mGoogleMap == null) {
             mGoogleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(
-                    R.id.map)).getMapAsync(getActivity());
+                    R.id.map));
 
             // check if map is created successfully or not
             if (mGoogleMap == null) {
                 Toast.makeText(getActivity(),
                         "Sorry! unable to create maps", Toast.LENGTH_SHORT)
                         .show();
+            } else {
+                mGoogleMap.getMapAsync(this);
             }
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }
