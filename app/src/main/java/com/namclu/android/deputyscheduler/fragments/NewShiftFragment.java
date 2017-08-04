@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.models.ShiftPostBody;
@@ -49,6 +50,7 @@ public class NewShiftFragment extends Fragment implements
     private Calendar mCalendar;
     private Button mSaveButton;
     private Button mCancelButton;
+    private SupportMapFragment mGoogleMap;
 
     public static NewShiftFragment newInstance() {
 
@@ -155,5 +157,19 @@ public class NewShiftFragment extends Fragment implements
         getActivity()
                 .getSupportFragmentManager()
                 .popBackStack();
+    }
+
+    private void initilizeMap() {
+        if (mGoogleMap == null) {
+            mGoogleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(
+                    R.id.map)).getMapAsync(getActivity());
+
+            // check if map is created successfully or not
+            if (mGoogleMap == null) {
+                Toast.makeText(getActivity(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
     }
 }
