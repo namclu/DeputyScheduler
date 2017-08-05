@@ -39,7 +39,8 @@ import retrofit2.Response;
 
 public class NewShiftFragment extends Fragment implements
         TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener, OnMapReadyCallback {
+        DatePickerDialog.OnDateSetListener,
+        OnMapReadyCallback {
 
     private static final String TAG = NewShiftFragment.class.getSimpleName();
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;

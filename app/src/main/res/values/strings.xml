@@ -2,6 +2,7 @@
     <!-- Activity and fragment titles -->
     <string name="app_name">Deputy Scheduler</string>
     <string name="fragment_new_shift_title">New Shift</string>
+    <string name="settings">Settings</string>
 
     <!-- ShiftList frag strings -->
     <string name="shift_in_progress">in progress...</string>
@@ -12,7 +13,6 @@
     <string name="time_end">Time End</string>
     <string name="button_text_cancel">Cancel</string>
     <string name="button_text_save">Save</string>
-
     <string name="hint_enter_date">Enter date</string>
 
     <!-- DatePicker strings -->
@@ -27,5 +27,12 @@
     <!-- Toast messages -->
     <string name="toast_shift_started">Shift started</string>
     <string name="toast_shift_ended">Shift ended</string>
+
+    <!-- Location services -->
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="no_location_detected">No location detected.
+        Make sure location is enabled on the device.</string>
 
 </resources>
