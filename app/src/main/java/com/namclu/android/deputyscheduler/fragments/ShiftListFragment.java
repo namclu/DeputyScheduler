@@ -39,7 +39,7 @@ public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemCl
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
 
     // Global variables
-    private ArrayList<Shift> mShifts;
+    private List<Shift> mShifts;
     private MainActivity mMainActivity;
 
     public static ShiftListFragment newInstance() {
@@ -52,7 +52,6 @@ public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemCl
 
         // Initialize variables
         mShifts = new ArrayList<>();
-        final ShiftAdapter shiftAdapter = new ShiftAdapter(mShifts, this);
 
         // Find references
         final RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
@@ -70,8 +69,8 @@ public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemCl
                 int statusCode = response.code();
 
                 if (statusCode == 200) {
-                    List<Shift> shifts = response.body();
-                    recyclerView.setAdapter(new ShiftAdapter(shifts, ShiftListFragment.this));
+                    mShifts = response.body();
+                    recyclerView.setAdapter(new ShiftAdapter(mShifts, ShiftListFragment.this));
                 }
             }
 

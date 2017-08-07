@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements
     protected Location mLastLocation;
     private String mLatitudeLabel;
     private String mLongitudeLabel;
+    private DeviceLocationService mLocationService;
     private FloatingActionButton mFab;
 
     @Override
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onComplete(@NonNull Task<Location> task) {
         if (task.isSuccessful() && task.getResult() != null) {
             mLastLocation = task.getResult();
+            mLocationService.obtainDeviceLocation(mLastLocation);
             Log.v(TAG, "Latitude: " + mLastLocation.getLatitude());
             Log.v(TAG, "Longitude: " + mLastLocation.getLongitude());
         } else {
@@ -224,5 +226,9 @@ public class MainActivity extends AppCompatActivity implements
             // previously and checked "Never ask again".
             startLocationPermissionRequest();
         }
+    }
+
+    public interface DeviceLocationService {
+        void obtainDeviceLocation(Location deviceLocation);
     }
 }

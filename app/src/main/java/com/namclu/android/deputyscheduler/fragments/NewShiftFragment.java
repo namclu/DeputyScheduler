@@ -2,6 +2,7 @@ package com.namclu.android.deputyscheduler.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.namclu.android.deputyscheduler.BuildConfig;
+import com.namclu.android.deputyscheduler.MainActivity;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.models.ShiftPostBody;
 import com.namclu.android.deputyscheduler.rest.ApiClient;
@@ -40,7 +42,8 @@ import retrofit2.Response;
 public class NewShiftFragment extends Fragment implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener,
-        OnMapReadyCallback {
+        OnMapReadyCallback,
+        MainActivity.DeviceLocationService {
 
     private static final String TAG = NewShiftFragment.class.getSimpleName();
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
@@ -54,6 +57,7 @@ public class NewShiftFragment extends Fragment implements
     private Button mSaveButton;
     private Button mCancelButton;
     private SupportMapFragment mGoogleMap;
+    private Location mDeviceLocation;
 
     public static NewShiftFragment newInstance() {
 
@@ -102,6 +106,9 @@ public class NewShiftFragment extends Fragment implements
                                 .format(mCalendar.getTime()));
                 postBody.setLatitude("0.00000");
                 postBody.setLongitude("0.00000");
+                //postBody.setLatitude(String.valueOf(mDeviceLocation.getLatitude()));
+                //postBody.setLongitude(String.valueOf(mDeviceLocation.getLongitude()));
+                Log.v(TAG, "PostBody: " + postBody.toString());
 
                 ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -162,7 +169,7 @@ public class NewShiftFragment extends Fragment implements
                 .popBackStack();
     }
 
-    private void initilizeMap() {
+    private void initializeMap() {
         if (mGoogleMap == null) {
             mGoogleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(
                     R.id.map));
@@ -181,5 +188,12 @@ public class NewShiftFragment extends Fragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+    }
+
+    @Override
+    public void obtainDeviceLocation(Location deviceLocation) {
+        if (deviceLocation != null) {
+            mDeviceLocation = deviceLocation;
+        }
     }
 }
