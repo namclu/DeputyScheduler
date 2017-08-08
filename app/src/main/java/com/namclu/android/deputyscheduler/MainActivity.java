@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 NewShiftFragment newShiftFragment = NewShiftFragment.newInstance();
+                mLocationService = newShiftFragment;
+
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, newShiftFragment, NEW_SHIFT)
@@ -144,7 +146,9 @@ public class MainActivity extends AppCompatActivity implements
     public void onComplete(@NonNull Task<Location> task) {
         if (task.isSuccessful() && task.getResult() != null) {
             mLastLocation = task.getResult();
-            mLocationService.obtainDeviceLocation(mLastLocation);
+            if (mLocationService != null) {
+                mLocationService.obtainDeviceLocation(mLastLocation);
+            }
             Log.v(TAG, "Latitude: " + mLastLocation.getLatitude());
             Log.v(TAG, "Longitude: " + mLastLocation.getLongitude());
         } else {
@@ -152,6 +156,14 @@ public class MainActivity extends AppCompatActivity implements
             showSnackbar(getString(R.string.no_location_detected));
         }
     }
+
+    /*public void setLocationService(DeviceLocationService service){
+        mLocationService = service;
+
+        if(mLocationService != null) {
+            mLocationService.obtainDeviceLocation(mLastLocation);
+        }
+    }*/
 
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {

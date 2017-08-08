@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.models.Shift;
@@ -37,7 +40,8 @@ import retrofit2.Response;
  */
 
 public class ShiftDetailsFragment extends Fragment implements
-        TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog.OnTimeSetListener,
+        OnMapReadyCallback {
 
     private static final String TAG = ShiftDetailsFragment.class.getSimpleName();
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
@@ -53,6 +57,7 @@ public class ShiftDetailsFragment extends Fragment implements
     private Calendar mCalendar;
     private Button mSaveButton;
     private Button mCancelButton;
+    private SupportMapFragment mGoogleMap;
 
     public static ShiftDetailsFragment newInstance(Shift shift) {
         ShiftDetailsFragment fragment = new ShiftDetailsFragment();
@@ -159,9 +164,29 @@ public class ShiftDetailsFragment extends Fragment implements
         mTextEndTimePicker.setText(String.format("%02d:%02d", hours, minutes));
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+    }
+
     private void closeFragment() {
         getActivity()
                 .getSupportFragmentManager()
                 .popBackStack();
+    }
+
+    private void initializeMap() {
+        if (mGoogleMap == null) {
+            mGoogleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+
+            // check if map is created successfully or not
+            if (mGoogleMap == null) {
+                Toast.makeText(getActivity(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                mGoogleMap.getMapAsync(this);
+            }
+        }
     }
 }

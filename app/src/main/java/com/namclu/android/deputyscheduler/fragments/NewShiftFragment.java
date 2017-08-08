@@ -50,6 +50,8 @@ public class NewShiftFragment extends Fragment implements
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
 
+
+
     // Global variables
     private TextView mTextDatePicker;
     private TextView mTextStartTimePicker;
@@ -60,7 +62,6 @@ public class NewShiftFragment extends Fragment implements
     private Location mDeviceLocation;
 
     public static NewShiftFragment newInstance() {
-
         return new NewShiftFragment();
     }
 
@@ -163,28 +164,6 @@ public class NewShiftFragment extends Fragment implements
                 new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(mCalendar.getTime()));
     }
 
-    private void closeFragment() {
-        getActivity()
-                .getSupportFragmentManager()
-                .popBackStack();
-    }
-
-    private void initializeMap() {
-        if (mGoogleMap == null) {
-            mGoogleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(
-                    R.id.map));
-
-            // check if map is created successfully or not
-            if (mGoogleMap == null) {
-                Toast.makeText(getActivity(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                mGoogleMap.getMapAsync(this);
-            }
-        }
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -194,6 +173,27 @@ public class NewShiftFragment extends Fragment implements
     public void obtainDeviceLocation(Location deviceLocation) {
         if (deviceLocation != null) {
             mDeviceLocation = deviceLocation;
+        }
+    }
+
+    private void closeFragment() {
+        getActivity()
+                .getSupportFragmentManager()
+                .popBackStack();
+    }
+
+    private void initializeMap() {
+        if (mGoogleMap == null) {
+            mGoogleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+
+            // check if map is created successfully or not
+            if (mGoogleMap == null) {
+                Toast.makeText(getActivity(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                mGoogleMap.getMapAsync(this);
+            }
         }
     }
 }
