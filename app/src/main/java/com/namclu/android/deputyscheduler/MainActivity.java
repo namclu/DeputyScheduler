@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements
                         .addToBackStack(NEW_SHIFT)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit();
+                mLocationService.obtainDeviceLocation(mLastLocation);
             }
         });
 

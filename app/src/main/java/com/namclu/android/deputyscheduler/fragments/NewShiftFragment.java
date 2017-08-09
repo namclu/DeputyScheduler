@@ -17,9 +17,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.MainActivity;
 import com.namclu.android.deputyscheduler.R;
@@ -50,8 +53,6 @@ public class NewShiftFragment extends Fragment implements
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
 
-
-
     // Global variables
     private TextView mTextDatePicker;
     private TextView mTextStartTimePicker;
@@ -60,6 +61,8 @@ public class NewShiftFragment extends Fragment implements
     private Button mCancelButton;
     private SupportMapFragment mGoogleMap;
     private Location mDeviceLocation;
+    private double mLatitude;
+    private double mLongitude;
 
     public static NewShiftFragment newInstance() {
         return new NewShiftFragment();
@@ -76,7 +79,14 @@ public class NewShiftFragment extends Fragment implements
         mSaveButton = (Button) view.findViewById(R.id.button_save);
         mCancelButton = (Button) view.findViewById(R.id.button_cancel);
 
+        // Init variables
         mCalendar = Calendar.getInstance();
+        if (mDeviceLocation != null) {
+            mLatitude = mDeviceLocation.getLatitude();
+            mLongitude = mDeviceLocation.getLongitude();
+        }
+        mGoogleMap = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.map);
+        initializeMap();
 
         mTextDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,11 +115,8 @@ public class NewShiftFragment extends Fragment implements
                 postBody.setTime(
                         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
                                 .format(mCalendar.getTime()));
-                postBody.setLatitude("0.00000");
-                postBody.setLongitude("0.00000");
-                //postBody.setLatitude(String.valueOf(mDeviceLocation.getLatitude()));
-                //postBody.setLongitude(String.valueOf(mDeviceLocation.getLongitude()));
-                Log.v(TAG, "PostBody: " + postBody.toString());
+                postBody.setLatitude(String.valueOf(mLatitude));
+                postBody.setLongitude(String.valueOf(mLongitude));
 
                 ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -166,7 +173,11 @@ public class NewShiftFragment extends Fragment implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        LatLng mapMarker = new LatLng(mLatitude, mLongitude);
+        googleMap.addMarker(new MarkerOptions()
+                .position(mapMarker)
+                .title("Start"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(mapMarker));
     }
 
     @Override
