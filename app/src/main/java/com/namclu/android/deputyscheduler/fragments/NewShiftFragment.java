@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.MainActivity;
@@ -52,17 +53,18 @@ public class NewShiftFragment extends Fragment implements
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
+    // Map zoom levels: 1.0f = World view, 20.0f = Buildings view
+    private static final float MAP_ZOOM_CITY_LEVEL = 10.0f;
 
-    // Global variables
+    // Class variables
     private TextView mTextDatePicker;
     private TextView mTextStartTimePicker;
     private Calendar mCalendar;
     private Button mSaveButton;
     private Button mCancelButton;
-    private SupportMapFragment mGoogleMap;
+    private GoogleMap mMap;
     private Location mDeviceLocation;
-    private double mLatitude;
-    private double mLongitude;
+    private Marker mDeviceLocationMarker;
 
     public static NewShiftFragment newInstance() {
         return new NewShiftFragment();
@@ -81,12 +83,7 @@ public class NewShiftFragment extends Fragment implements
 
         // Init variables
         mCalendar = Calendar.getInstance();
-        if (mDeviceLocation != null) {
-            mLatitude = mDeviceLocation.getLatitude();
-            mLongitude = mDeviceLocation.getLongitude();
-        }
-        mGoogleMap = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.map);
-        initializeMap();
+        setUpMapIfNeeded();
 
         mTextDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,8 +112,13 @@ public class NewShiftFragment extends Fragment implements
                 postBody.setTime(
                         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
                                 .format(mCalendar.getTime()));
-                postBody.setLatitude(String.valueOf(mLatitude));
-                postBody.setLongitude(String.valueOf(mLongitude));
+                if (mDeviceLocation == null) {
+                    postBody.setLatitude(String.valueOf(0));
+                    postBody.setLongitude(String.valueOf(0));
+                } else {
+                    postBody.setLatitude(String.valueOf(mDeviceLocation.getLatitude()));
+                    postBody.setLongitude(String.valueOf(mDeviceLocation.getLongitude()));
+                }
 
                 ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -160,7 +162,7 @@ public class NewShiftFragment extends Fragment implements
         mCalendar.set(Calendar.HOUR, hours);
         mCalendar.set(Calendar.MINUTE, minutes);
 
-        mTextStartTimePicker.setText(String.format("%02d:%02d", hours, minutes));
+        mTextStartTimePicker.setText(String.format(Locale.ENGLISH, "%02d:%02d", hours, minutes));
     }
 
     @Override
@@ -171,19 +173,27 @@ public class NewShiftFragment extends Fragment implements
                 new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(mCalendar.getTime()));
     }
 
+    private void setUpMapIfNeeded() {
+        if (mMap == null) {
+            ((SupportMapFragment) getChildFragmentManager()
+                    .findFragmentById(R.id.map))
+                    .getMapAsync(this);
+        } else {
+            initializeMap();
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng mapMarker = new LatLng(mLatitude, mLongitude);
-        googleMap.addMarker(new MarkerOptions()
-                .position(mapMarker)
-                .title("Start"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(mapMarker));
+        mMap = googleMap;
+        initializeMap();
     }
 
     @Override
     public void obtainDeviceLocation(Location deviceLocation) {
         if (deviceLocation != null) {
             mDeviceLocation = deviceLocation;
+            updateMapMarker();
         }
     }
 
@@ -194,17 +204,26 @@ public class NewShiftFragment extends Fragment implements
     }
 
     private void initializeMap() {
-        if (mGoogleMap == null) {
-            mGoogleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map));
+        updateMapMarker();
+    }
 
-            // check if map is created successfully or not
-            if (mGoogleMap == null) {
-                Toast.makeText(getActivity(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
+    private void updateMapMarker() {
+        if (mMap == null) {
+            Toast.makeText(getActivity(),
+                    "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mDeviceLocation != null) {
+            LatLng mapLocation = new LatLng(mDeviceLocation.getLatitude(), mDeviceLocation.getLongitude());
+            if (mDeviceLocationMarker == null) {
+                mDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
+                        .position(mapLocation)
+                        .title(getString(R.string.label_map_marker_start)));
             } else {
-                mGoogleMap.getMapAsync(this);
+                mDeviceLocationMarker.setPosition(mapLocation);
             }
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(mapLocation));
+            mMap.setMinZoomPreference(MAP_ZOOM_CITY_LEVEL);
         }
     }
 }

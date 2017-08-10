@@ -39,9 +39,7 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Represents a geographical location.
      */
-    protected Location mLastLocation;
-    private String mLatitudeLabel;
-    private String mLongitudeLabel;
+    private Location mLastLocation;
     private DeviceLocationService mLocationService;
     private FloatingActionButton mFab;
 

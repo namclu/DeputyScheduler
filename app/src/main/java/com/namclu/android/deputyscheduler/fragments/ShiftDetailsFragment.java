@@ -77,7 +77,7 @@ public class ShiftDetailsFragment extends Fragment implements
         String completeStartTimeString = args.getString(START_TIME);
         String startDateString = completeStartTimeString.split("T")[0];
         String startTimeString = completeStartTimeString.split("T")[1];
-        String completeEndTimeString  = args.getString(END_TIME);;
+        String completeEndTimeString  = args.getString(END_TIME);
 
         // Find view ids
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
@@ -161,7 +161,7 @@ public class ShiftDetailsFragment extends Fragment implements
         mCalendar.set(Calendar.HOUR, hours);
         mCalendar.set(Calendar.MINUTE, minutes);
 
-        mTextEndTimePicker.setText(String.format("%02d:%02d", hours, minutes));
+        mTextEndTimePicker.setText(String.format(Locale.ENGLISH, "%02d:%02d", hours, minutes));
     }
 
     @Override
