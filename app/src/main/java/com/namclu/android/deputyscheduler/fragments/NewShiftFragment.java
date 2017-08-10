@@ -209,8 +209,6 @@ public class NewShiftFragment extends Fragment implements
 
     private void updateMapMarker() {
         if (mMap == null) {
-            Toast.makeText(getActivity(),
-                    "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
             return;
         }
         if (mDeviceLocation != null) {
