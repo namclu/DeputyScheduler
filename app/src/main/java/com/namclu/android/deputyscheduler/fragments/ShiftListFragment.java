@@ -1,6 +1,7 @@
 package com.namclu.android.deputyscheduler.fragments;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,15 +33,18 @@ import retrofit2.Response;
  * Created by namlu on 7/23/2017.
  */
 
-public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemClickListener{
+public class ShiftListFragment extends Fragment implements
+        ShiftAdapter.OnItemClickListener {
 
     private static final String TAG = ShiftListFragment.class.getSimpleName();
     private static final String SHIFT_DETAILS = "ShiftDetails";
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
 
-    // Global variables
+    // Class variables
     private List<Shift> mShifts;
     private MainActivity mMainActivity;
+    private Location mDeviceLocation;
+    private MainActivity.DeviceLocationService mLocationService;
 
     public static ShiftListFragment newInstance() {
         return new ShiftListFragment();
@@ -108,11 +112,23 @@ public class ShiftListFragment extends Fragment implements ShiftAdapter.OnItemCl
     @Override
     public void OnItemClicked(Shift shift) {
         ShiftDetailsFragment shiftDetailsFragment = ShiftDetailsFragment.newInstance(shift);
+        mLocationService = shiftDetailsFragment;
+
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, shiftDetailsFragment, SHIFT_DETAILS)
                 .addToBackStack(SHIFT_DETAILS)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
+
+        mLocationService.obtainDeviceLocation(mDeviceLocation);
     }
+
+    /*@Override
+    public void obtainDeviceLocation(Location deviceLocation) {
+        if (deviceLocation != null) {
+            mDeviceLocation = deviceLocation;
+            //updateMapMarker();
+        }
+    }*/
 }

@@ -173,16 +173,6 @@ public class NewShiftFragment extends Fragment implements
                 new SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(mCalendar.getTime()));
     }
 
-    private void setUpMapIfNeeded() {
-        if (mMap == null) {
-            ((SupportMapFragment) getChildFragmentManager()
-                    .findFragmentById(R.id.map))
-                    .getMapAsync(this);
-        } else {
-            initializeMap();
-        }
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -201,6 +191,16 @@ public class NewShiftFragment extends Fragment implements
         getActivity()
                 .getSupportFragmentManager()
                 .popBackStack();
+    }
+
+    private void setUpMapIfNeeded() {
+        if (mMap == null) {
+            ((SupportMapFragment) getChildFragmentManager()
+                    .findFragmentById(R.id.map))
+                    .getMapAsync(this);
+        } else {
+            initializeMap();
+        }
     }
 
     private void initializeMap() {

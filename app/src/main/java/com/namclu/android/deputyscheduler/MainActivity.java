@@ -156,14 +156,6 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    /*public void setLocationService(DeviceLocationService service){
-        mLocationService = service;
-
-        if(mLocationService != null) {
-            mLocationService.obtainDeviceLocation(mLastLocation);
-        }
-    }*/
-
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {
         mFusedLocationClient.getLastLocation().addOnCompleteListener(this, this);
