@@ -1,6 +1,7 @@
 package com.namclu.android.deputyscheduler.fragments;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,7 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.namclu.android.deputyscheduler.BuildConfig;
-import com.namclu.android.deputyscheduler.MainActivity;
+import com.namclu.android.deputyscheduler.DeviceLocationService;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.models.Shift;
 import com.namclu.android.deputyscheduler.models.ShiftPostBody;
@@ -47,8 +48,7 @@ import retrofit2.Response;
 
 public class ShiftDetailsFragment extends Fragment implements
         TimePickerDialog.OnTimeSetListener,
-        OnMapReadyCallback,
-        MainActivity.DeviceLocationService {
+        OnMapReadyCallback {
 
     private static final String TAG = ShiftDetailsFragment.class.getSimpleName();
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
@@ -68,6 +68,7 @@ public class ShiftDetailsFragment extends Fragment implements
     private GoogleMap mMap;
     private Location mDeviceLocation;
     private Marker mDeviceLocationMarker;
+    private DeviceLocationService mDeviceLocationService;
 
     public static ShiftDetailsFragment newInstance(Shift shift) {
         ShiftDetailsFragment fragment = new ShiftDetailsFragment();
@@ -174,6 +175,19 @@ public class ShiftDetailsFragment extends Fragment implements
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof DeviceLocationService) {
+            mDeviceLocationService = (DeviceLocationService) context;
+            mDeviceLocation = mDeviceLocationService.getDeviceLocation();
+        } else {
+            throw new ClassCastException(
+                    "Activity must implement DeviceLocationService");
+        }
+    }
+
+    @Override
     public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
         mCalendar.set(Calendar.HOUR, hours);
         mCalendar.set(Calendar.MINUTE, minutes);
@@ -185,11 +199,6 @@ public class ShiftDetailsFragment extends Fragment implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         initializeMap();
-    }
-
-    @Override
-    public void obtainDeviceLocation(Location deviceLocation) {
-
     }
 
     private void closeFragment() {
