@@ -55,6 +55,7 @@ public class ShiftDetailsFragment extends Fragment implements
     private static final String DIALOG_TIME = "DialogTime";
     private static final String START_TIME = "StartTime";
     private static final String END_TIME = "EndTime";
+    private static final String SHIFT = "Shift";
     // Map zoom levels: 1.0f = World view, 20.0f = Buildings view
     private static final float MAP_ZOOM_CITY_LEVEL = 10.0f;
 
@@ -73,8 +74,9 @@ public class ShiftDetailsFragment extends Fragment implements
     public static ShiftDetailsFragment newInstance(Shift shift) {
         ShiftDetailsFragment fragment = new ShiftDetailsFragment();
         Bundle args = new Bundle();
-        args.putSerializable(START_TIME, shift.getStartTime());
-        args.putSerializable(END_TIME, shift.getEndTime());
+        //args.putSerializable(START_TIME, shift.getStartTime());
+        //args.putSerializable(END_TIME, shift.getEndTime());
+        args.putParcelable(SHIFT, shift);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,10 +87,11 @@ public class ShiftDetailsFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_shift_details, container, false);
 
         Bundle args = getArguments();
-        String completeStartTimeString = args.getString(START_TIME);
+        Shift shift = args.getParcelable(SHIFT);
+        String completeStartTimeString = shift.getStartTime();//args.getString(START_TIME);
         String startDateString = completeStartTimeString.split("T")[0];
         String startTimeString = completeStartTimeString.split("T")[1];
-        String completeEndTimeString  = args.getString(END_TIME);
+        String completeEndTimeString  = shift.getEndTime();//args.getString(END_TIME);
 
         // Find view ids
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);

@@ -1,5 +1,8 @@
 package com.namclu.android.deputyscheduler.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -9,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  * company name, date, start/end time, start/end location, and a location image
  */
 
-public class Shift {
+public class Shift implements Parcelable {
 
     /*
     * Todo:add variable comments
@@ -125,6 +128,36 @@ public class Shift {
 
     public void setImage(String image) {
         mImage = image;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mId);
+        parcel.writeString(mStartTime);
+        parcel.writeString(mEndTime);
+        parcel.writeString(mStartDate);
+        parcel.writeString(mStartLatitude);
+        parcel.writeString(mStartLongitude);
+        parcel.writeString(mEndLatitude);
+        parcel.writeString(mEndLongitude);
+        parcel.writeString(mImage);
+    }
+
+    public Shift (Parcel parcel) {
+        mId = parcel.readInt();
+        mStartTime = parcel.readString();
+        mEndTime = parcel.readString();
+        mStartDate = parcel.readString();
+        mStartLatitude = parcel.readString();
+        mStartLongitude = parcel.readString();
+        mEndLatitude = parcel.readString();
+        mEndLongitude = parcel.readString();
+        mImage = parcel.readString();
     }
 }
 
