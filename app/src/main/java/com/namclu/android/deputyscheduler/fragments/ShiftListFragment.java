@@ -44,7 +44,7 @@ public class ShiftListFragment extends Fragment implements
     private List<Shift> mShifts;
     private MainActivity mMainActivity;
     private Location mDeviceLocation;
-    private MainActivity.DeviceLocationService mLocationService;
+    //private MainActivity.DeviceLocationService mLocationService;
 
     public static ShiftListFragment newInstance() {
         return new ShiftListFragment();
@@ -112,7 +112,7 @@ public class ShiftListFragment extends Fragment implements
     @Override
     public void OnItemClicked(Shift shift) {
         ShiftDetailsFragment shiftDetailsFragment = ShiftDetailsFragment.newInstance(shift);
-        mLocationService = shiftDetailsFragment;
+        //mLocationService = shiftDetailsFragment;
 
         getFragmentManager()
                 .beginTransaction()
@@ -121,7 +121,7 @@ public class ShiftListFragment extends Fragment implements
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
 
-        mLocationService.obtainDeviceLocation(mDeviceLocation);
+        //mLocationService.obtainDeviceLocation(mDeviceLocation);
     }
 
     /*@Override

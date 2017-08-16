@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.namclu.android.deputyscheduler.BuildConfig;
-import com.namclu.android.deputyscheduler.MainActivity;
 import com.namclu.android.deputyscheduler.R;
 import com.namclu.android.deputyscheduler.models.Shift;
 import com.namclu.android.deputyscheduler.models.ShiftPostBody;
@@ -47,8 +46,7 @@ import retrofit2.Response;
 
 public class ShiftDetailsFragment extends Fragment implements
         TimePickerDialog.OnTimeSetListener,
-        OnMapReadyCallback,
-        MainActivity.DeviceLocationService {
+        OnMapReadyCallback {
 
     private static final String TAG = ShiftDetailsFragment.class.getSimpleName();
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
@@ -185,11 +183,6 @@ public class ShiftDetailsFragment extends Fragment implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         initializeMap();
-    }
-
-    @Override
-    public void obtainDeviceLocation(Location deviceLocation) {
-
     }
 
     private void closeFragment() {
