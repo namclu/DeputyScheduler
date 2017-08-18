@@ -241,17 +241,17 @@ public class ShiftDetailsFragment extends Fragment implements
             }
 
             // Map marker for end location
-            LatLng currentLocation = new LatLng(mDeviceLocation.getLatitude(),
-                    mDeviceLocation.getLongitude());
+            LatLng endLocation = new LatLng(Double.parseDouble(mShift.getEndLatitude()),
+                    Double.parseDouble(mShift.getEndLongitude()));
             if (mDeviceLocationMarker == null) {
                 mDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
-                        .position(currentLocation)
+                        .position(endLocation)
                         .title(getString(R.string.label_map_marker_end)));
             } else {
-                mDeviceLocationMarker.setPosition(currentLocation);
+                mDeviceLocationMarker.setPosition(endLocation);
             }
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(endLocation));
             mMap.setMinZoomPreference(MAP_ZOOM_CITY_LEVEL);
         }
     }
