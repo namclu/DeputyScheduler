@@ -14,10 +14,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Shift implements Parcelable {
 
-    /*
-    * Todo:add variable comments
-    *
-    * */
     @SerializedName("id")
     private int mId;
     @SerializedName("start")
@@ -56,6 +52,18 @@ public class Shift implements Parcelable {
         setEndLongitude(endLongitude);
         setImage(image);
     }
+
+    public static final Creator<Shift> CREATOR = new Creator<Shift>() {
+        @Override
+        public Shift createFromParcel(Parcel in) {
+            return new Shift(in);
+        }
+
+        @Override
+        public Shift[] newArray(int size) {
+            return new Shift[size];
+        }
+    };
 
     /* Getter and Setters */
     public int getId() {

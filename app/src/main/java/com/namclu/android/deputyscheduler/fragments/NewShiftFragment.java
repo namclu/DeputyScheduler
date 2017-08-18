@@ -218,15 +218,15 @@ public class NewShiftFragment extends Fragment implements
             return;
         }
         if (mDeviceLocation != null) {
-            LatLng mapLocation = new LatLng(mDeviceLocation.getLatitude(), mDeviceLocation.getLongitude());
+            LatLng currentLocation = new LatLng(mDeviceLocation.getLatitude(), mDeviceLocation.getLongitude());
             if (mDeviceLocationMarker == null) {
                 mDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
-                        .position(mapLocation)
+                        .position(currentLocation)
                         .title(getString(R.string.label_map_marker_start)));
             } else {
-                mDeviceLocationMarker.setPosition(mapLocation);
+                mDeviceLocationMarker.setPosition(currentLocation);
             }
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(mapLocation));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             mMap.setMinZoomPreference(MAP_ZOOM_CITY_LEVEL);
         }
     }

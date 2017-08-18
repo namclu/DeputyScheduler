@@ -68,14 +68,14 @@ public class ShiftDetailsFragment extends Fragment implements
     private Button mCancelButton;
     private GoogleMap mMap;
     private Location mDeviceLocation;
+    private Marker mStartDeviceLocationMarker;
     private Marker mDeviceLocationMarker;
     private DeviceLocationService mDeviceLocationService;
+    private Shift mShift;
 
     public static ShiftDetailsFragment newInstance(Shift shift) {
         ShiftDetailsFragment fragment = new ShiftDetailsFragment();
         Bundle args = new Bundle();
-        //args.putSerializable(START_TIME, shift.getStartTime());
-        //args.putSerializable(END_TIME, shift.getEndTime());
         args.putParcelable(SHIFT, shift);
         fragment.setArguments(args);
         return fragment;
@@ -87,11 +87,11 @@ public class ShiftDetailsFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_shift_details, container, false);
 
         Bundle args = getArguments();
-        Shift shift = args.getParcelable(SHIFT);
-        String completeStartTimeString = shift.getStartTime();//args.getString(START_TIME);
+        mShift = args.getParcelable(SHIFT);
+        String completeStartTimeString = mShift.getStartTime();
         String startDateString = completeStartTimeString.split("T")[0];
         String startTimeString = completeStartTimeString.split("T")[1];
-        String completeEndTimeString  = shift.getEndTime();//args.getString(END_TIME);
+        String completeEndTimeString  = mShift.getEndTime();
 
         // Find view ids
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
@@ -229,15 +229,29 @@ public class ShiftDetailsFragment extends Fragment implements
             return;
         }
         if (mDeviceLocation != null) {
-            LatLng mapLocation = new LatLng(mDeviceLocation.getLatitude(), mDeviceLocation.getLongitude());
+            // Map marker for start location
+            LatLng startLocation = new LatLng(Double.parseDouble(mShift.getStartLatitude()),
+                    Double.parseDouble(mShift.getStartLongitude()));
+            if (mStartDeviceLocationMarker == null) {
+                mStartDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
+                        .position(startLocation)
+                        .title(getString(R.string.label_map_marker_start)));
+            } else {
+                mStartDeviceLocationMarker.setPosition(startLocation);
+            }
+
+            // Map marker for end location
+            LatLng currentLocation = new LatLng(mDeviceLocation.getLatitude(),
+                    mDeviceLocation.getLongitude());
             if (mDeviceLocationMarker == null) {
                 mDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
-                        .position(mapLocation)
+                        .position(currentLocation)
                         .title(getString(R.string.label_map_marker_end)));
             } else {
-                mDeviceLocationMarker.setPosition(mapLocation);
+                mDeviceLocationMarker.setPosition(currentLocation);
             }
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(mapLocation));
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             mMap.setMinZoomPreference(MAP_ZOOM_CITY_LEVEL);
         }
     }
