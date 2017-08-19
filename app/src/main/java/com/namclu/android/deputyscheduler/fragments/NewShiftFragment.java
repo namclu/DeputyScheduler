@@ -114,8 +114,8 @@ public class NewShiftFragment extends Fragment implements
                         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
                                 .format(mCalendar.getTime()));
                 if (mDeviceLocation == null) {
-                    postBody.setLatitude(String.valueOf(0));
-                    postBody.setLongitude(String.valueOf(0));
+                    postBody.setLatitude(String.valueOf(0.00000));
+                    postBody.setLongitude(String.valueOf(0.00000));
                 } else {
                     postBody.setLatitude(String.valueOf(mDeviceLocation.getLatitude()));
                     postBody.setLongitude(String.valueOf(mDeviceLocation.getLongitude()));

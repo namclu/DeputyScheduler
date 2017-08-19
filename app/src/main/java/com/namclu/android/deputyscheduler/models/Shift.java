@@ -32,25 +32,9 @@ public class Shift implements Parcelable {
     @SerializedName("image")
     private String mImage;
 
-    // Constructors
-    public Shift(int id, String shiftDate, String startTime) {
-        setId(id);
-        setStartDate(shiftDate);
-        setStartTime(startTime);
-    }
+    // No argument constructor
+    public Shift() {
 
-    public Shift(String startTime, String startLatitude, String startLongitude, String image) {
-        this(startTime, startLatitude, startLongitude, "0.00000", "0.00000", image);
-    }
-
-    public Shift(String startTime, String startLatitude, String startLongitude,
-                 String endLatitude, String endLongitude, String image) {
-        setStartTime(startTime);
-        setStartLatitude(startLatitude);
-        setStartLongitude(startLongitude);
-        setEndLatitude(endLatitude);
-        setEndLongitude(endLongitude);
-        setImage(image);
     }
 
     public static final Creator<Shift> CREATOR = new Creator<Shift>() {

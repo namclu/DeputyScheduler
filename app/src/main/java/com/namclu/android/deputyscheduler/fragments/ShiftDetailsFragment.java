@@ -53,8 +53,6 @@ public class ShiftDetailsFragment extends Fragment implements
     private static final String TAG = ShiftDetailsFragment.class.getSimpleName();
     private static final String DEPUTY_USER_SHA = "Deputy " + BuildConfig.USER_SHA;
     private static final String DIALOG_TIME = "DialogTime";
-    private static final String START_TIME = "StartTime";
-    private static final String END_TIME = "EndTime";
     private static final String SHIFT = "Shift";
     // Map zoom levels: 1.0f = World view, 20.0f = Buildings view
     private static final float MAP_ZOOM_CITY_LEVEL = 10.0f;
@@ -133,8 +131,8 @@ public class ShiftDetailsFragment extends Fragment implements
                         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
                                 .format(mCalendar.getTime()));
                 if (mDeviceLocation == null) {
-                    postBody.setLatitude(String.valueOf(0));
-                    postBody.setLongitude(String.valueOf(0));
+                    postBody.setLatitude(String.valueOf(0.00000));
+                    postBody.setLongitude(String.valueOf(0.00000));
                 } else {
                     postBody.setLatitude(String.valueOf(mDeviceLocation.getLatitude()));
                     postBody.setLongitude(String.valueOf(mDeviceLocation.getLongitude()));
@@ -228,28 +226,30 @@ public class ShiftDetailsFragment extends Fragment implements
         if (mMap == null) {
             return;
         }
-        if (mDeviceLocation != null) {
-            // Map marker for start location
-            LatLng startLocation = new LatLng(Double.parseDouble(mShift.getStartLatitude()),
-                    Double.parseDouble(mShift.getStartLongitude()));
-            if (mStartDeviceLocationMarker == null) {
-                mStartDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
-                        .position(startLocation)
-                        .title(getString(R.string.label_map_marker_start)));
-            } else {
-                mStartDeviceLocationMarker.setPosition(startLocation);
-            }
+        // Map marker for start location
+        LatLng startLocation = new LatLng(Double.parseDouble(mShift.getStartLatitude()),
+                Double.parseDouble(mShift.getStartLongitude()));
+        Marker startLocationMarker = mMap.addMarker(new MarkerOptions()
+                .position(startLocation)
+                .title(getString(R.string.label_map_marker_start)));
+        startLocationMarker.setPosition(startLocation);
 
-            // Map marker for end location
-            LatLng endLocation = new LatLng(Double.parseDouble(mShift.getEndLatitude()),
-                    Double.parseDouble(mShift.getEndLongitude()));
-            if (mDeviceLocationMarker == null) {
-                mDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
-                        .position(endLocation)
-                        .title(getString(R.string.label_map_marker_end)));
+        // Map marker for end location
+        if (mDeviceLocation != null) {
+            LatLng endLocation;
+
+            // If an end time has not been set, then end location will also not have been set so
+            // we need to get end location from device
+            if (mShift.getEndTime().isEmpty()) {
+                endLocation = new LatLng(mDeviceLocation.getLatitude(), mDeviceLocation.getLongitude());
             } else {
-                mDeviceLocationMarker.setPosition(endLocation);
+                endLocation = new LatLng(Double.parseDouble(mShift.getEndLatitude()),
+                        Double.parseDouble(mShift.getEndLongitude()));
             }
+            Marker endLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(endLocation)
+                    .title(getString(R.string.label_map_marker_end)));
+            endLocationMarker.setPosition(endLocation);
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(endLocation));
             mMap.setMinZoomPreference(MAP_ZOOM_CITY_LEVEL);
