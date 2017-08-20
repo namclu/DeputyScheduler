@@ -55,7 +55,7 @@ public class ShiftDetailsFragment extends Fragment implements
     private static final String DIALOG_TIME = "DialogTime";
     private static final String SHIFT = "Shift";
     // Map zoom levels: 1.0f = World view, 20.0f = Buildings view
-    private static final float MAP_ZOOM_CITY_LEVEL = 10.0f;
+    private static final float MAP_ZOOM_CITY_LEVEL = 9.0f;
 
     // Class variables
     private TextView mTextDatePicker;
@@ -66,8 +66,6 @@ public class ShiftDetailsFragment extends Fragment implements
     private Button mCancelButton;
     private GoogleMap mMap;
     private Location mDeviceLocation;
-    private Marker mStartDeviceLocationMarker;
-    private Marker mDeviceLocationMarker;
     private DeviceLocationService mDeviceLocationService;
     private Shift mShift;
 
@@ -148,11 +146,9 @@ public class ShiftDetailsFragment extends Fragment implements
                         Log.v(TAG, response.toString());
 
                         if (statusCode == 200) {
-                            Toast.makeText(
-                                    getActivity(),
+                            Toast.makeText(getActivity(),
                                     getResources().getString(R.string.toast_shift_ended),
-                                    Toast.LENGTH_SHORT)
-                                    .show();
+                                    Toast.LENGTH_SHORT).show();
                             closeFragment();
                         }
                     }
@@ -223,11 +219,14 @@ public class ShiftDetailsFragment extends Fragment implements
     }
 
     private void updateMapMarker() {
+        LatLng startLocation;
+        LatLng endLocation;
+
         if (mMap == null) {
             return;
         }
         // Map marker for start location
-        LatLng startLocation = new LatLng(Double.parseDouble(mShift.getStartLatitude()),
+        startLocation = new LatLng(Double.parseDouble(mShift.getStartLatitude()),
                 Double.parseDouble(mShift.getStartLongitude()));
         Marker startLocationMarker = mMap.addMarker(new MarkerOptions()
                 .position(startLocation)
@@ -236,21 +235,23 @@ public class ShiftDetailsFragment extends Fragment implements
 
         // Map marker for end location
         if (mDeviceLocation != null) {
-            LatLng endLocation;
+            Marker endLocationMarker;
 
             // If an end time has not been set, then end location will also not have been set so
             // we need to get end location from device
             if (mShift.getEndTime().isEmpty()) {
                 endLocation = new LatLng(mDeviceLocation.getLatitude(), mDeviceLocation.getLongitude());
+                endLocationMarker = mMap.addMarker(new MarkerOptions()
+                        .position(endLocation)
+                        .title(getString(R.string.label_map_marker_current)));
             } else {
                 endLocation = new LatLng(Double.parseDouble(mShift.getEndLatitude()),
                         Double.parseDouble(mShift.getEndLongitude()));
+                endLocationMarker = mMap.addMarker(new MarkerOptions()
+                        .position(endLocation)
+                        .title(getString(R.string.label_map_marker_end)));
             }
-            Marker endLocationMarker = mMap.addMarker(new MarkerOptions()
-                    .position(endLocation)
-                    .title(getString(R.string.label_map_marker_end)));
             endLocationMarker.setPosition(endLocation);
-
             mMap.moveCamera(CameraUpdateFactory.newLatLng(endLocation));
             mMap.setMinZoomPreference(MAP_ZOOM_CITY_LEVEL);
         }

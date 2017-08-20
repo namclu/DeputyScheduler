@@ -222,7 +222,7 @@ public class NewShiftFragment extends Fragment implements
             if (mDeviceLocationMarker == null) {
                 mDeviceLocationMarker = mMap.addMarker(new MarkerOptions()
                         .position(currentLocation)
-                        .title(getString(R.string.label_map_marker_start)));
+                        .title(getString(R.string.label_map_marker_current)));
             } else {
                 mDeviceLocationMarker.setPosition(currentLocation);
             }

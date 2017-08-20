@@ -36,5 +36,7 @@
         Make sure location is enabled on the device.</string>
     <string name="label_map_marker_start">Start</string>
     <string name="label_map_marker_end">End</string>
+    <string name="label_map_marker_current">Current</string>
+    <string name="toast_no_device_location">Unable to get device location</string>
 
 </resources>
