@@ -30,7 +30,7 @@ public class Shift implements Parcelable {
     @SerializedName("endLongitude")
     private String mEndLongitude;
     @SerializedName("image")
-    private String mImage;
+    private String mImageUrl;
 
     // No argument constructor
     public Shift() {
@@ -114,12 +114,12 @@ public class Shift implements Parcelable {
         mEndLongitude = endLongitude;
     }
 
-    public String getImage() {
-        return mImage;
+    public String getImageUrl() {
+        return mImageUrl;
     }
 
-    public void setImage(String image) {
-        mImage = image;
+    public void setImageUrl(String imageUrl) {
+        mImageUrl = imageUrl;
     }
 
     @Override
@@ -137,7 +137,7 @@ public class Shift implements Parcelable {
         parcel.writeString(mStartLongitude);
         parcel.writeString(mEndLatitude);
         parcel.writeString(mEndLongitude);
-        parcel.writeString(mImage);
+        parcel.writeString(mImageUrl);
     }
 
     public Shift (Parcel parcel) {
@@ -149,7 +149,7 @@ public class Shift implements Parcelable {
         mStartLongitude = parcel.readString();
         mEndLatitude = parcel.readString();
         mEndLongitude = parcel.readString();
-        mImage = parcel.readString();
+        mImageUrl = parcel.readString();
     }
 }
 
