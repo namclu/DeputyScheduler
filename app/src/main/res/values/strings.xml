@@ -37,7 +37,6 @@
     <string name="label_map_marker_start">Start</string>
     <string name="label_map_marker_end">End</string>
     <string name="label_map_marker_current">Current</string>
-    <string name="toast_no_device_location">Unable to get device location</string>
     <string name="error_no_network">No network connection</string>
     <string name="error_no_shifts">No Shifts added</string>
 

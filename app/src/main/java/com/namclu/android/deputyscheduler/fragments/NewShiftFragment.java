@@ -60,12 +60,9 @@ public class NewShiftFragment extends Fragment implements
     private TextView mTextDatePicker;
     private TextView mTextStartTimePicker;
     private Calendar mCalendar;
-    private Button mSaveButton;
-    private Button mCancelButton;
     private GoogleMap mMap;
     private Location mDeviceLocation;
     private Marker mDeviceLocationMarker;
-    private DeviceLocationService mDeviceLocationService;
 
     public static NewShiftFragment newInstance() {
         return new NewShiftFragment();
@@ -79,8 +76,8 @@ public class NewShiftFragment extends Fragment implements
         // Find view ids
         mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
         mTextStartTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
-        mSaveButton = (Button) view.findViewById(R.id.button_save);
-        mCancelButton = (Button) view.findViewById(R.id.button_cancel);
+        Button saveButton = (Button) view.findViewById(R.id.button_save);
+        Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
 
         // Init variables
         mCalendar = Calendar.getInstance();
@@ -106,7 +103,7 @@ public class NewShiftFragment extends Fragment implements
             }
         });
 
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final ShiftPostBody postBody = new ShiftPostBody();
@@ -148,7 +145,7 @@ public class NewShiftFragment extends Fragment implements
             }
         });
 
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 closeFragment();
@@ -163,8 +160,8 @@ public class NewShiftFragment extends Fragment implements
         super.onAttach(context);
 
         if (context instanceof DeviceLocationService) {
-            mDeviceLocationService = (DeviceLocationService) context;
-            mDeviceLocation = mDeviceLocationService.getDeviceLocation();
+            DeviceLocationService deviceLocationService = (DeviceLocationService) context;
+            mDeviceLocation = deviceLocationService.getDeviceLocation();
         } else {
             throw new ClassCastException (
                     "Activity must implement DeviceLocationService");

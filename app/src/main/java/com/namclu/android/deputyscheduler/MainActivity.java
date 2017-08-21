@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -49,9 +48,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        LinearLayout fragmentContainer = (LinearLayout) findViewById(R.id.fragment_container);
-
+        
         if (savedInstanceState == null) {
             ShiftListFragment shiftListFragment = ShiftListFragment.newInstance();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, shiftListFragment).commit();

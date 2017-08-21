@@ -57,16 +57,10 @@ public class ShiftDetailsFragment extends Fragment implements
     // Map zoom levels: 1.0f = World view, 20.0f = Buildings view
     private static final float MAP_ZOOM_CITY_LEVEL = 9.0f;
 
-    // Class variables
-    private TextView mTextDatePicker;
-    private TextView mTextStartTimePicker;
     private TextView mTextEndTimePicker;
     private Calendar mCalendar;
-    private Button mSaveButton;
-    private Button mCancelButton;
     private GoogleMap mMap;
     private Location mDeviceLocation;
-    private DeviceLocationService mDeviceLocationService;
     private Shift mShift;
 
     public static ShiftDetailsFragment newInstance(Shift shift) {
@@ -90,16 +84,16 @@ public class ShiftDetailsFragment extends Fragment implements
         String completeEndTimeString  = mShift.getEndTime();
 
         // Find view ids
-        mTextDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
-        mTextStartTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
+        TextView textDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
+        TextView textStartTimePicker = (TextView) view.findViewById(R.id.text_start_time_picker);
         mTextEndTimePicker = (TextView) view.findViewById(R.id.text_end_time_picker);
-        mSaveButton = (Button) view.findViewById(R.id.button_save);
-        mCancelButton = (Button) view.findViewById(R.id.button_cancel);
+        Button saveButton = (Button) view.findViewById(R.id.button_save);
+        Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
 
         // Todo: Format display date/time to match that of when date/time are entered
         // e.g. Thu, 3 Aug 2017 and 13:31
-        mTextDatePicker.setText(String.format("%s", startDateString));
-        mTextStartTimePicker.setText(String.format("%s", startTimeString));
+        textDatePicker.setText(String.format(Locale.ENGLISH, "%s", startDateString));
+        textStartTimePicker.setText(String.format(Locale.ENGLISH, "%s", startTimeString));
         //mTextDatePicker.setText(new SimpleDateFormat("EEE, MMM d yyyy", Locale.ENGLISH).format(completeStartTimeString));
 
         // Init variables
@@ -121,7 +115,7 @@ public class ShiftDetailsFragment extends Fragment implements
             });
         }
 
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final ShiftPostBody postBody = new ShiftPostBody();
@@ -161,7 +155,7 @@ public class ShiftDetailsFragment extends Fragment implements
             }
         });
 
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 closeFragment();
@@ -176,8 +170,8 @@ public class ShiftDetailsFragment extends Fragment implements
         super.onAttach(context);
 
         if (context instanceof DeviceLocationService) {
-            mDeviceLocationService = (DeviceLocationService) context;
-            mDeviceLocation = mDeviceLocationService.getDeviceLocation();
+            DeviceLocationService deviceLocationService = (DeviceLocationService) context;
+            mDeviceLocation = deviceLocationService.getDeviceLocation();
         } else {
             throw new ClassCastException(
                     "Activity must implement DeviceLocationService");

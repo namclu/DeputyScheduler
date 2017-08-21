@@ -16,8 +16,8 @@ import com.namclu.android.deputyscheduler.models.Shift;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by namlu on 7/23/2017.
@@ -49,11 +49,11 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
     public void onBindViewHolder(ShiftAdapter.ViewHolder holder, int position) {
         final Shift currentShift = mShifts.get(position);
 
-        holder.mShiftId.setText(String.format("%d", currentShift.getId()));
-        holder.mTextDate.setText(String.format("%s", currentShift.getStartDate()));
-        holder.mTextStartTime.setText(String.format("%s", currentShift.getStartTime()));
+        holder.mShiftId.setText(String.format(Locale.ENGLISH, "%d", currentShift.getId()));
+        holder.mTextDate.setText(String.format(Locale.ENGLISH, "%s", currentShift.getStartDate()));
+        holder.mTextStartTime.setText(String.format(Locale.ENGLISH, "%s", currentShift.getStartTime()));
         if (!currentShift.getEndTime().isEmpty()) {
-            holder.mTextEndTime.setText(String.format("%s", currentShift.getEndTime()));
+            holder.mTextEndTime.setText(String.format(Locale.ENGLISH, "%s", currentShift.getEndTime()));
         } else {
             holder.mTextEndTime.setText(R.string.shift_in_progress);
         }
@@ -97,7 +97,7 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
+        final ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
@@ -110,9 +110,6 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
             try {
                 InputStream in = new java.net.URL(urlDisplay).openStream();
                 mIcon = BitmapFactory.decodeStream(in);
-            } catch (MalformedURLException e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
             } catch (IOException e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
