@@ -75,6 +75,7 @@ public class ShiftListFragment extends Fragment implements
                     mShifts = response.body();
                     recyclerView.setAdapter(new ShiftAdapter(mShifts, ShiftListFragment.this));
                 }
+                hideFabShiftInProgress();
             }
 
             @Override
@@ -118,5 +119,16 @@ public class ShiftListFragment extends Fragment implements
                 .addToBackStack(SHIFT_DETAILS)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
+    }
+
+    private void hideFabShiftInProgress() {
+        int lastShift = mShifts.size() - 1;
+
+        // Check if any shift still in progress and hide FAB if shift in progress, else show FAB
+        if (mShifts.get(lastShift).getEndTime().equals("")) {
+            mMainActivity.showFloatingButton(false);
+        } else {
+            mMainActivity.showFloatingButton(true);
+        }
     }
 }

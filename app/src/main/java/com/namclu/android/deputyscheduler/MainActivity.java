@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements
      * Represents a geographical location.
      */
     private Location mLastLocation;
+
+    // Class variables
     private FloatingActionButton mFab;
 
     @Override
@@ -149,6 +151,12 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    // Required method of DeviceLocationService to pass device's current location to fragments
+    @Override
+    public Location getDeviceLocation() {
+        return mLastLocation;
+    }
+
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {
         mFusedLocationClient.getLastLocation().addOnCompleteListener(this, this);
@@ -222,10 +230,5 @@ public class MainActivity extends AppCompatActivity implements
             // previously and checked "Never ask again".
             startLocationPermissionRequest();
         }
-    }
-
-    @Override
-    public Location getDeviceLocation() {
-        return mLastLocation;
     }
 }
