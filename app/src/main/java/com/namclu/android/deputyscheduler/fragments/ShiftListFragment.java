@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.namclu.android.deputyscheduler.BuildConfig;
 import com.namclu.android.deputyscheduler.MainActivity;
@@ -58,6 +59,8 @@ public class ShiftListFragment extends Fragment implements
 
         // Find references
         final RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
+        final TextView noShiftsTextView = (TextView) getView().findViewById(R.id.error_no_shifts_view);
+        final TextView noNetworkTextView = (TextView) getView().findViewById(R.id.error_no_network_view);
 
         // RecyclerView stuff
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -74,12 +77,27 @@ public class ShiftListFragment extends Fragment implements
                 if (statusCode == 200) {
                     mShifts = response.body();
                     recyclerView.setAdapter(new ShiftAdapter(mShifts, ShiftListFragment.this));
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noNetworkTextView.setVisibility(View.GONE);
+                    noShiftsTextView.setVisibility(View.GONE);
                 }
+
+                // If Shift is empty, show no Shifts text
+                if (mShifts.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    noNetworkTextView.setVisibility(View.GONE);
+                    noShiftsTextView.setVisibility(View.VISIBLE);
+                }
+
                 hideFabShiftInProgress();
             }
 
             @Override
             public void onFailure(Call<List<Shift>> call, Throwable t) {
+                // If network not available, show no network text
+                recyclerView.setVisibility(View.GONE);
+                noNetworkTextView.setVisibility(View.VISIBLE);
+                noShiftsTextView.setVisibility(View.GONE);
                 Log.e(TAG, t.toString());
             }
         });
