@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.namclu.android.deputyscheduler.BuildConfig;
@@ -61,6 +62,7 @@ public class ShiftListFragment extends Fragment implements
         final RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         final TextView noShiftsTextView = (TextView) getView().findViewById(R.id.error_no_shifts_view);
         final TextView noNetworkTextView = (TextView) getView().findViewById(R.id.error_no_network_view);
+        final ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progress_bar_spinner);
 
         // RecyclerView stuff
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -80,6 +82,7 @@ public class ShiftListFragment extends Fragment implements
                     recyclerView.setVisibility(View.VISIBLE);
                     noNetworkTextView.setVisibility(View.GONE);
                     noShiftsTextView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                 }
 
                 // If Shift is empty, show no Shifts text
@@ -87,6 +90,7 @@ public class ShiftListFragment extends Fragment implements
                     recyclerView.setVisibility(View.GONE);
                     noNetworkTextView.setVisibility(View.GONE);
                     noShiftsTextView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 }
 
                 hideFabShiftInProgress();
@@ -98,6 +102,7 @@ public class ShiftListFragment extends Fragment implements
                 recyclerView.setVisibility(View.GONE);
                 noNetworkTextView.setVisibility(View.VISIBLE);
                 noShiftsTextView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 Log.e(TAG, t.toString());
             }
         });
