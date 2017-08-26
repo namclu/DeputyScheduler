@@ -31,8 +31,10 @@ import com.namclu.android.deputyscheduler.models.ShiftPostBody;
 import com.namclu.android.deputyscheduler.rest.ApiClient;
 import com.namclu.android.deputyscheduler.rest.ApiInterface;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -74,14 +76,11 @@ public class ShiftDetailsFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_shift_details, container, false);
+        mShift = getArguments().getParcelable(SHIFT);
+        mCalendar = Calendar.getInstance();
 
-        Bundle args = getArguments();
-        mShift = args.getParcelable(SHIFT);
-        String completeStartTimeString = mShift.getStartTime();
-        String startDateString = completeStartTimeString.split("T")[0];
-        String startTimeString = completeStartTimeString.split("T")[1];
-        String completeEndTimeString  = mShift.getEndTime();
+
+        View view = inflater.inflate(R.layout.fragment_shift_details, container, false);
 
         // Find view ids
         TextView textDatePicker = (TextView) view.findViewById(R.id.text_shift_date_picker);
@@ -90,19 +89,52 @@ public class ShiftDetailsFragment extends Fragment implements
         Button saveButton = (Button) view.findViewById(R.id.button_save);
         Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
 
-        // Todo: Format display date/time to match that of when date/time are entered
-        // e.g. Thu, 3 Aug 2017 and 13:31
-        textDatePicker.setText(String.format(Locale.ENGLISH, "%s", startDateString));
-        textStartTimePicker.setText(String.format(Locale.ENGLISH, "%s", startTimeString));
-        //mTextDatePicker.setText(new SimpleDateFormat("EEE, MMM d yyyy", Locale.ENGLISH).format(completeStartTimeString));
+        // Format @Shift start date and start time
+        if (!mShift.getStartTime().isEmpty()) {
+            Date startDateTime = null;
+            try {
+                startDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
+                        .parse(mShift.getStartTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Account for time if it is missing the time zone
+                try {
+                    startDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+                            .parse(mShift.getStartTime());
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            // Set @Shift start date and start time
+            if (startDateTime != null) {
+                textDatePicker.setText(String.format(Locale.ENGLISH, "%s",
+                        new SimpleDateFormat("EEE, dd MMM yyyy").format(startDateTime)));
+                textStartTimePicker.setText(String.format(Locale.ENGLISH, "%s",
+                        new SimpleDateFormat("K:mm a").format(startDateTime)));
+            }
+        }
 
-        // Init variables
-        mCalendar = Calendar.getInstance();
-        setUpMapIfNeeded();
-
-        if (!completeEndTimeString.isEmpty()) {
-            String endTimeString = completeEndTimeString.split("T")[1];
-            mTextEndTimePicker.setText(String.format("%s", endTimeString));
+        // Format @Shift end time (if present)
+        if (!mShift.getEndTime().isEmpty()) {
+            Date endDateTime = null;
+            try {
+                endDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
+                        .parse(mShift.getEndTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Account for time if it is missing the time zone
+                try {
+                    endDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+                            .parse(mShift.getEndTime());
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            // Set @Shift end time
+            if (endDateTime != null) {
+                mTextEndTimePicker.setText(String.format(Locale.ENGLISH, "%s",
+                        new SimpleDateFormat("K:mm a").format(endDateTime)));
+            }
         } else {
             mTextEndTimePicker.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,6 +146,8 @@ public class ShiftDetailsFragment extends Fragment implements
                 }
             });
         }
+
+        setUpMapIfNeeded();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
