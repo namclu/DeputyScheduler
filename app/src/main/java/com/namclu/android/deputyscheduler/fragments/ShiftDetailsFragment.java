@@ -189,6 +189,13 @@ public class ShiftDetailsFragment extends Fragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(
+                getResources().getString(R.string.fragment_shift_details));
+    }
+
+    @Override
     public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
         mCalendar.set(Calendar.HOUR, hours);
         mCalendar.set(Calendar.MINUTE, minutes);

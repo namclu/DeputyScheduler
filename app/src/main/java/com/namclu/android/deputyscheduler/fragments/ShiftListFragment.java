@@ -122,6 +122,8 @@ public class ShiftListFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         mMainActivity.showFloatingButton(true);
+        getActivity().setTitle(
+                getResources().getString(R.string.app_name));
     }
 
     @Override
