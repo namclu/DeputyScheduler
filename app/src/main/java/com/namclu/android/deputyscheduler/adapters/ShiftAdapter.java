@@ -16,6 +16,9 @@ import com.namclu.android.deputyscheduler.models.Shift;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,9 +32,14 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
 
     private static final String TAG = ShiftAdapter.class.getSimpleName();
 
-    // Global variables
+    // Class variables
     private final List<Shift> mShifts;
     private final OnItemClickListener mItemClickListener;
+
+    // Interfaces
+    public interface OnItemClickListener {
+        void OnItemClicked(Shift shift);
+    }
 
     public ShiftAdapter(List<Shift> shifts, OnItemClickListener onItemClickListener) {
         mShifts = shifts;
@@ -50,10 +58,19 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
         final Shift currentShift = mShifts.get(position);
 
         holder.mShiftId.setText(String.format(Locale.ENGLISH, "%d", currentShift.getId()));
-        holder.mTextDate.setText(String.format(Locale.ENGLISH, "%s", currentShift.getStartDate()));
-        holder.mTextStartTime.setText(String.format(Locale.ENGLISH, "%s", currentShift.getStartTime()));
+        // Format date as Sun \newline 1 Jan
+        holder.mTextDate.setText(String.format(Locale.ENGLISH, "%s",
+                new SimpleDateFormat("EEE \nd MMM")
+                        .format(convertStringToDate(currentShift.getStartTime()))));
+        // Format start time as 12:34 PM
+        holder.mTextStartTime.setText(String.format(Locale.ENGLISH, "%s",
+                new SimpleDateFormat("hh:mm a")
+                        .format(convertStringToDate(currentShift.getStartTime()))));
+        // Format end time as 12:34 PM
         if (!currentShift.getEndTime().isEmpty()) {
-            holder.mTextEndTime.setText(String.format(Locale.ENGLISH, "%s", currentShift.getEndTime()));
+            holder.mTextEndTime.setText(String.format(Locale.ENGLISH, "%s",
+                    new SimpleDateFormat("hh:mm a")
+                            .format(convertStringToDate(currentShift.getEndTime()))));
         } else {
             holder.mTextEndTime.setText(R.string.shift_in_progress);
         }
@@ -86,14 +103,10 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
             super(itemView);
             mShiftId = (TextView) itemView.findViewById(R.id.text_shift_id);
             mImageView = (ImageView) itemView.findViewById(R.id.image_view);
-            mTextDate = (TextView) itemView.findViewById(R.id.text_day);
+            mTextDate = (TextView) itemView.findViewById(R.id.text_date);
             mTextStartTime = (TextView) itemView.findViewById(R.id.text_start_time_heading);
             mTextEndTime = (TextView) itemView.findViewById(R.id.text_end_time);
         }
-    }
-
-    public interface OnItemClickListener {
-        void OnItemClicked(Shift shift);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -114,12 +127,30 @@ public class ShiftAdapter extends RecyclerView.Adapter<ShiftAdapter.ViewHolder>{
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
-
             return mIcon;
         }
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+
+    // Convert date/time String to Date object
+    private Date convertStringToDate(String dateTimeString) {
+        Date dateTimeStringToDate = null;
+
+        try {
+            dateTimeStringToDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
+                    .parse(dateTimeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            try {
+                dateTimeStringToDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+                        .parse(dateTimeString);
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return dateTimeStringToDate;
     }
 }

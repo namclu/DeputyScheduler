@@ -50,13 +50,6 @@
         android:layout_marginTop="8dp">
 
         <TextView
-            android:id="@+id/text_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="SUN"
-            />
-
-        <TextView
             android:id="@+id/text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

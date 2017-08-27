@@ -98,7 +98,7 @@ public class ShiftDetailsFragment extends Fragment implements
                 textDatePicker.setText(String.format(Locale.ENGLISH, "%s",
                         new SimpleDateFormat("EEE, dd MMM yyyy").format(startDateTime)));
                 textStartTimePicker.setText(String.format(Locale.ENGLISH, "%s",
-                        new SimpleDateFormat("K:mm a").format(startDateTime)));
+                        new SimpleDateFormat("hh:mm a").format(startDateTime)));
             }
         }
 
@@ -109,7 +109,7 @@ public class ShiftDetailsFragment extends Fragment implements
             // Set @Shift end time
             if (endDateTime != null) {
                 mTextEndTimePicker.setText(String.format(Locale.ENGLISH, "%s",
-                        new SimpleDateFormat("K:mm a").format(endDateTime)));
+                        new SimpleDateFormat("hh:mm a").format(endDateTime)));
             }
         } else {
             mTextEndTimePicker.setOnClickListener(new View.OnClickListener() {
