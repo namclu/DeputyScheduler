@@ -89,22 +89,10 @@ public class ShiftDetailsFragment extends Fragment implements
         Button saveButton = (Button) view.findViewById(R.id.button_save);
         Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
 
-        // Format @Shift start date and start time
+        // Set @Shift start date and time
         if (!mShift.getStartTime().isEmpty()) {
-            Date startDateTime = null;
-            try {
-                startDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
-                        .parse(mShift.getStartTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-                // Account for time if it is missing the time zone
-                try {
-                    startDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
-                            .parse(mShift.getStartTime());
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
-                }
-            }
+            Date startDateTime = shiftDateStringToDate(mShift.getStartTime());
+
             // Set @Shift start date and start time
             if (startDateTime != null) {
                 textDatePicker.setText(String.format(Locale.ENGLISH, "%s",
@@ -114,22 +102,10 @@ public class ShiftDetailsFragment extends Fragment implements
             }
         }
 
-        // Format @Shift end time (if present)
+        // Set @Shift end time if present, else allow user to enter an end time
         if (!mShift.getEndTime().isEmpty()) {
-            Date endDateTime = null;
-            try {
-                endDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
-                        .parse(mShift.getEndTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-                // Account for time if it is missing the time zone
-                try {
-                    endDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
-                            .parse(mShift.getEndTime());
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
-                }
-            }
+            Date endDateTime = shiftDateStringToDate(mShift.getEndTime());
+
             // Set @Shift end time
             if (endDateTime != null) {
                 mTextEndTimePicker.setText(String.format(Locale.ENGLISH, "%s",
@@ -232,6 +208,7 @@ public class ShiftDetailsFragment extends Fragment implements
                 .popBackStack();
     }
 
+    // Set up GoogleMap
     private void setUpMapIfNeeded() {
         if (mMap == null) {
             ((SupportMapFragment) getChildFragmentManager()
@@ -246,6 +223,7 @@ public class ShiftDetailsFragment extends Fragment implements
         updateMapMarker();
     }
 
+    // Update map with map location markers
     private void updateMapMarker() {
         LatLng startLocation;
         LatLng endLocation;
@@ -283,5 +261,24 @@ public class ShiftDetailsFragment extends Fragment implements
             mMap.moveCamera(CameraUpdateFactory.newLatLng(endLocation));
             mMap.setMinZoomPreference(MAP_ZOOM_CITY_LEVEL);
         }
+    }
+
+    // Convert @Shift date String to Date object
+    private Date shiftDateStringToDate(String dateTimeString) {
+        Date shiftDateTime = null;
+
+        try {
+            shiftDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.ENGLISH)
+                    .parse(dateTimeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            try {
+                shiftDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+                        .parse(dateTimeString);
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return shiftDateTime;
     }
 }
