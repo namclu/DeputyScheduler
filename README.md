@@ -36,7 +36,7 @@ Directory Name: <Name of the repository>
 ## Tools and Libraries
 
 - [Retrofit](https://github.com/square/retrofit) - Networking library
-- [Google Maps API](https://developers.google.com/maps/documentation/android-api/) - Used to capture user location during check-in and check-out
+- [Google Maps API](https://developers.google.com/maps/documentation/android-api/) - Used to capture & display user's location during check-in and check-out
 - [Simple Date Format](https://developer.android.com/reference/java/text/SimpleDateFormat.html) - Used to properly format dates and times.
 
 ## Screenshots
