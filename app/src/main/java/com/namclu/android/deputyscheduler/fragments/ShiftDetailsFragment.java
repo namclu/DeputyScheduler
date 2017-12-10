@@ -73,6 +73,19 @@ public class ShiftDetailsFragment extends Fragment implements
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof DeviceLocationService) {
+            DeviceLocationService deviceLocationService = (DeviceLocationService) context;
+            mDeviceLocation = deviceLocationService.getDeviceLocation();
+        } else {
+            throw new ClassCastException(
+                    "Activity must implement DeviceLocationService");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -173,19 +186,6 @@ public class ShiftDetailsFragment extends Fragment implements
         });
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (context instanceof DeviceLocationService) {
-            DeviceLocationService deviceLocationService = (DeviceLocationService) context;
-            mDeviceLocation = deviceLocationService.getDeviceLocation();
-        } else {
-            throw new ClassCastException(
-                    "Activity must implement DeviceLocationService");
-        }
     }
 
     @Override
